@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/explore"
+        android:icon="@drawable/ic_explore"
+        android:title="@string/explore">
+    </item>
+    <item
+        android:id="@+id/favourites"
+        android:icon="@drawable/ic_star_full"
+        android:title="@string/favourites">
+    </item>
+    <item
+        android:id="@+id/seasons"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/seasons">
+    </item>
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings">
+    </item>
+</menu>

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">NBAApp</string>
+
+    <string name="explore">Explore</string>
+    <string name="favourites">Favourites</string>
+    <string name="seasons">Seasons</string>
+    <string name="settings">Settings</string>
 </resources>
