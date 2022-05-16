@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.fragments.ExploreFragment
+import com.example.myapplication.fragments.FavouritesFragment
+import com.example.myapplication.fragments.SeasonsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,9 +24,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.explore -> setCurrentFragment(ExploreFragment())
-                /*R.id.favourites -> setCurrentFragment(FavouritesFragment())
+                R.id.favourites -> setCurrentFragment(FavouritesFragment())
                 R.id.seasons -> setCurrentFragment(SeasonsFragment())
-                R.id.settings -> setCurrentFragment(SettingsFragment())*/
+                //R.id.settings -> setCurrentFragment(SettingsFragment())
             }
             true
         }

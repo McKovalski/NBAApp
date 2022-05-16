@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/card_background"
+    android:elevation="1dp">
+
+    <ImageView
+        android:id="@+id/image_first_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/club_logo_background"
+        tools:backgroundTint="@color/team_nets_primary"
+        tools:src="@drawable/ic_nets" />
+
+    <TextView
+        android:id="@+id/first_team_name_abbr"
+        style="@style/AssistiveNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="@id/image_first_team"
+        app:layout_constraintStart_toStartOf="@id/image_first_team"
+        app:layout_constraintTop_toBottomOf="@id/image_first_team"
+        tools:text="BKN" />
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/DescriptionNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/image_second_team"
+        app:layout_constraintStart_toEndOf="@id/image_first_team"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TUESDAY, 19 Oct 2021" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:justifyContent="space_evenly"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/image_second_team"
+        app:layout_constraintStart_toEndOf="@id/image_first_team"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/first_team_score"
+            style="@style/DisplayLargeNLv1Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="104"
+            tools:textColor="@color/neutrals_n_lv_2" />
+
+        <TextView
+            style="@style/DisplayLargeNLv1Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="-" />
+
+        <TextView
+            android:id="@+id/second_team_score"
+            style="@style/DisplayLargeNLv1Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="127" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:id="@+id/final_label"
+        style="@style/DescriptionNLv2Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/image_second_team"
+        app:layout_constraintStart_toStartOf="@id/image_first_team"
+        tools:text="FINAL" />
+
+    <ImageView
+        android:id="@+id/image_second_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/club_logo_background"
+        tools:backgroundTint="@color/team_bucks_primary"
+        tools:src="@drawable/ic_bucks" />
+
+    <TextView
+        android:id="@+id/second_team_name_abbr"
+        style="@style/AssistiveNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="@id/image_second_team"
+        app:layout_constraintStart_toStartOf="@id/image_second_team"
+        app:layout_constraintTop_toBottomOf="@id/image_second_team"
+        tools:text="MIL" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
