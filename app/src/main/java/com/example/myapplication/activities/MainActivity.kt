@@ -8,6 +8,7 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.fragments.ExploreFragment
 import com.example.myapplication.fragments.FavouritesFragment
 import com.example.myapplication.fragments.SeasonsFragment
+import com.example.myapplication.fragments.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.explore -> setCurrentFragment(ExploreFragment())
                 R.id.favourites -> setCurrentFragment(FavouritesFragment())
                 R.id.seasons -> setCurrentFragment(SeasonsFragment())
-                //R.id.settings -> setCurrentFragment(SettingsFragment())
+                R.id.settings -> setCurrentFragment(SettingsFragment())
             }
             true
         }
