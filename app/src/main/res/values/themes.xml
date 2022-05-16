@@ -3,7 +3,7 @@
     <style name="Theme.NBAApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryVariant">@color/color_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/team_wizards_primary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/color_secondary</item>
@@ -25,4 +25,8 @@
     <style name="Theme.NBAApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.NBAApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">12dp</item>
+    </style>
 </resources>

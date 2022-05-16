@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.fragments.ExploreFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,16 +16,18 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // TODO stavi na login fragment ako je prvi put upaljen app (ili nesto slicno)...
+        setCurrentFragment(ExploreFragment())
 
-        /*binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.explore -> setCurrentFragment(ExploreFragment())
-                R.id.favourites -> setCurrentFragment(FavouritesFragment())
+                /*R.id.favourites -> setCurrentFragment(FavouritesFragment())
                 R.id.seasons -> setCurrentFragment(SeasonsFragment())
-                R.id.settings -> setCurrentFragment(SettingsFragment())
+                R.id.settings -> setCurrentFragment(SettingsFragment())*/
             }
             true
-        }*/
+        }
     }
 
     private fun setCurrentFragment(fragment: Fragment) =

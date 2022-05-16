@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+        tools:src="@drawable/ic_player_1_small" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:flexDirection="column"
+        app:justifyContent="center"
+        app:layout_constraintBottom_toBottomOf="@id/icon"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toTopOf="@id/icon">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/BodyLargeNLv1Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toTopOf="@id/icon"
+            tools:text="Steven Adams" />
+
+        <TextView
+            android:id="@+id/team"
+            style="@style/BodyMediumNLv2Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="MEM" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <ImageView
+        android:id="@+id/icon_favourite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/favourite_icon_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/color_secondary" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
