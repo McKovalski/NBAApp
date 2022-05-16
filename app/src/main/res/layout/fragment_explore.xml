@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/surface_surface_0"
     tools:context=".fragments.ExploreFragment">
 
     <!--TODO popraviti izgled toolbara (lijeva strana ima rupu)-->
