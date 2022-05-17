@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:justifyContent="space_evenly"
+    app:alignItems="center">
+
+    <TextView
+        android:id="@+id/home_or_away_label"
+        style="@style/BodyMediumNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="\@" />
+
+    <ImageView
+        android:id="@+id/opponent_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center_horizontal"
+        tools:src="@drawable/ic_nets" />
+
+    <TextView
+        android:id="@+id/opponent_abbr"
+        style="@style/BodyMediumNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        tools:text="BKN" />
+
+</com.google.android.flexbox.FlexboxLayout>
