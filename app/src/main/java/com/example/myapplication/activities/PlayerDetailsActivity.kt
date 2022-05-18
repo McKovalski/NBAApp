@@ -21,23 +21,15 @@ class PlayerDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Naziv igraca"
+        binding.arrowBack.setOnClickListener {
+            finish()
+        }
+        //binding.toolbarTitle.text = "Neki title"
 
         val playerDetailsPagerAdapter = PlayerDetailsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = binding.viewPager
         viewPager.adapter = playerDetailsPagerAdapter
         val tabs: TabLayout = binding.tabLayout
         tabs.setupWithViewPager(viewPager)
-    }
-
-    // overridamo ovu metodu kako bi se vratili na prosli activity u stanju kojem smo ga ostavili
-    // tj. ne pokrecemo ponovno home activity, vec samo gasimo ovaj
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
