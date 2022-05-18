@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@drawable/card_background"
-    android:elevation="1dp">
+    android:elevation="6dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/icon"
@@ -18,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize12dp"
         tools:src="@drawable/ic_player_1_small" />
 
     <com.google.android.flexbox.FlexboxLayout

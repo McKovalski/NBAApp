@@ -26,7 +26,7 @@
 
     <style name="Theme.NBAApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+    <style name="ShapeAppearanceOverlay.App.CornerSize12dp" parent="">
         <item name="cornerSize">12dp</item>
     </style>
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NBAApp</string>
+    <string name="app_name">NBA App</string>
 
     <string name="explore">Explore</string>
     <string name="favourites">Favourites</string>
@@ -37,4 +37,10 @@
     <string name="home_arena_label">Home Arena</string>
     <string name="details">Details</string>
     <string name="matches">Matches</string>
+    <string name="statistics">Statistics</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="team">Team</string>
+    <string name="youtube_highlights">Youtube Highlights</string>
+    <string name="player_stats">Player Stats</string>
 </resources>

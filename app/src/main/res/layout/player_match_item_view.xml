@@ -27,16 +27,16 @@
         app:layout_constraintEnd_toStartOf="@id/second_team"
         app:layout_constraintStart_toEndOf="@id/first_team"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="TUESDAY, 19 Oct 2021" />
+        tools:text="19 Oct 2021" />
 
     <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/score_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:justifyContent="space_evenly"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/second_team"
         app:layout_constraintStart_toEndOf="@id/first_team"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/date">
 
         <TextView
             android:id="@+id/first_team_score"
@@ -62,16 +62,27 @@
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
-        android:id="@+id/final_label"
+        android:id="@+id/player_stats_label"
         style="@style/DescriptionNLv2Center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:text="@string/player_stats"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/second_team"
-        app:layout_constraintStart_toStartOf="@id/first_team"
-        tools:text="Final" />
+        app:layout_constraintStart_toStartOf="@id/first_team" />
+
+    <ImageView
+        android:id="@+id/stats_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_stats"
+        app:layout_constraintBottom_toTopOf="@id/player_stats_label"
+        app:layout_constraintEnd_toEndOf="@id/player_stats_label"
+        app:layout_constraintStart_toStartOf="@id/player_stats_label"
+        app:layout_constraintTop_toBottomOf="@id/score_layout"
+        app:tint="@color/color_secondary" />
 
     <include
         android:id="@+id/second_team"

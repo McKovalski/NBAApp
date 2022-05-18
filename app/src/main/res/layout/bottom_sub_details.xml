@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <include
-        android:id="@+id/conference_detail"
+        android:id="@+id/first_detail"
         layout="@layout/container_sub_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         android:background="@color/neutrals_n_lv_3" />
 
     <include
-        android:id="@+id/division_detail"
+        android:id="@+id/second_detail"
         layout="@layout/container_sub_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     <color name="color_primary">#1d4289</color>
     <color name="color_primary_dark">#001544</color>
     <color name="color_primary_light">#556cb9</color>
-    <color name="color_primary_hightlight">#261d4289</color>
+    <color name="color_primary_highlight">#261d4289</color>
     <color name="color_secondary">#ff5357</color>
     <color name="color_secondary_dark">#c5112e</color>
     <color name="color_secondary_light">#ff8784</color>

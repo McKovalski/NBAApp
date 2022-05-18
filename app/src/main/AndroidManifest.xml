@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NBAApp">
         <activity
+            android:name=".activities.PlayerDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.TeamDetailsActivity"
             android:exported="false" />
         <activity
