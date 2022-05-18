@@ -21,7 +21,6 @@ class TeamDetailsActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.title = "Naziv tima"
 
         val teamDetailsPagerAdapter = TeamDetailsPagerAdapter(this, supportFragmentManager)

@@ -87,55 +87,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_other_teams" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
         android:id="@+id/map_layout"
+        layout="@layout/map_view_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/card_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_arena_label">
-
-        <ImageView
-            android:id="@+id/icon_arena_location"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_maps_pin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/arena_location_city"
-            style="@style/BodyMediumNLv1Left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/icon_arena_location"
-            app:layout_constraintStart_toEndOf="@id/icon_arena_location"
-            app:layout_constraintTop_toTopOf="@id/icon_arena_location"
-            tools:text="Brooklyn" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/icon_arena_location">
-
-            <com.google.android.gms.maps.MapView xmlns:map="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/map_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                map:mapType="normal"
-                map:uiZoomControls="true" />
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@id/home_arena_label"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

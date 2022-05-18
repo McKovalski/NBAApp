@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/first_team"
+        layout="@layout/team_logo_abbr"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/DescriptionNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/second_team"
+        app:layout_constraintStart_toEndOf="@id/first_team"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TUESDAY, 19 Oct 2021" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:justifyContent="space_evenly"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/second_team"
+        app:layout_constraintStart_toEndOf="@id/first_team"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/first_team_score"
+            style="@style/DisplayLargeNLv1Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="104"
+            tools:textColor="@color/neutrals_n_lv_2" />
+
+        <TextView
+            style="@style/DisplayLargeNLv1Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="-" />
+
+        <TextView
+            android:id="@+id/second_team_score"
+            style="@style/DisplayLargeNLv1Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="127" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:id="@+id/final_label"
+        style="@style/DescriptionNLv2Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/second_team"
+        app:layout_constraintStart_toStartOf="@id/first_team"
+        tools:text="Final" />
+
+    <include
+        android:id="@+id/second_team"
+        layout="@layout/team_logo_abbr"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

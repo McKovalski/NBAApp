@@ -24,9 +24,9 @@ class PlayerDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Naziv igraca"
 
-        val teamDetailsPagerAdapter = PlayerDetailsPagerAdapter(this, supportFragmentManager)
+        val playerDetailsPagerAdapter = PlayerDetailsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = binding.viewPager
-        viewPager.adapter = teamDetailsPagerAdapter
+        viewPager.adapter = playerDetailsPagerAdapter
         val tabs: TabLayout = binding.tabLayout
         tabs.setupWithViewPager(viewPager)
     }

@@ -10,7 +10,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/ToolbarColoredBackArrow"
         app:layout_constraintTop_toTopOf="parent"
+        app:titleMarginStart="0dp"
+        app:titleTextAppearance="@style/SpecificAndroidHeaderTitleOnColorPrimaryLeft"
+        app:titleTextColor="@color/white"
         tools:background="@color/team_celtics_primary">
 
         <ImageView

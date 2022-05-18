@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.R
+import com.example.myapplication.activities.MatchDetailsActivity
 import com.example.myapplication.activities.PlayerDetailsActivity
 import com.example.myapplication.databinding.FragmentFavouritesBinding
 
@@ -25,7 +26,7 @@ class FavouritesFragment : Fragment() {
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
 
         binding.iconEdit.setOnClickListener {
-            val intent = Intent(requireContext(), PlayerDetailsActivity::class.java)
+            val intent = Intent(requireContext(), MatchDetailsActivity::class.java)
             activity?.startActivity(intent)
         }
 
