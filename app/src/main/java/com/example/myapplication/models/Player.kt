@@ -3,6 +3,7 @@ package com.example.myapplication.models
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class Player(
@@ -15,9 +16,25 @@ data class Player(
     val weight_pounds: Int?,
     val position: String,
     @Embedded val team: Team
-) {
+) : Serializable {
     fun fullName(): String {
         return "$first_name $last_name"
+    }
+
+    fun heightImperial(): String {
+        return "$height_feet\'$height_inches\""
+    }
+
+    fun fullPosition(): String {
+        return when (position) {
+            "G" -> "Guard"
+            "F" -> "Forward"
+            "C" -> "Center"
+            "G-F" -> "Guard-Forward"
+            "F-G" -> "Forward-Guard"
+            "C-F" -> "Center-Forward"
+            else -> "Forward-Center"
+        }
     }
 }
 

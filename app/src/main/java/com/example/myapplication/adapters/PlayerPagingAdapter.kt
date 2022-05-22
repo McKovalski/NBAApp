@@ -1,6 +1,7 @@
 package com.example.myapplication.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.activities.PlayerDetailsActivity
 import com.example.myapplication.databinding.PlayerItemViewBinding
 import com.example.myapplication.models.Player
+
+private const val EXTRA_PLAYER = "player"
 
 class PlayerPagingAdapter(
     private val context: Context,
@@ -43,7 +47,11 @@ class PlayerPagingAdapter(
             holder.binding.iconFavourite.apply { isSelected = !isSelected }
         }
 
-        // TODO pokreni player activity na klik
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, PlayerDetailsActivity::class.java)
+                .putExtra(EXTRA_PLAYER, player)
+            context.startActivity(intent)
+        }
     }
 }
 
