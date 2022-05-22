@@ -9,7 +9,6 @@ import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.models.Player
 import com.example.myapplication.models.PlayerRemoteKey
 import com.example.myapplication.network.NetworkRepo
-import java.io.InvalidObjectException
 
 @ExperimentalPagingApi
 class PlayersRemoteMediator(
@@ -21,8 +20,7 @@ class PlayersRemoteMediator(
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Player>): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> {
-                val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKey?.nextKey?.minus(1) ?: initialPage
+                initialPage
             }
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
             LoadType.APPEND -> {
@@ -37,10 +35,10 @@ class PlayersRemoteMediator(
 
         db.withTransaction {
             // If refreshing, clear table and start over
-            if (loadType == LoadType.REFRESH) {
+            /*if (loadType == LoadType.REFRESH) {
                 db.playerRemoteKeyDao().clearAllKeys()
                 db.playersDao().clearAll()
-            }
+            }*/
             val prevKey = if (page == initialPage) null else page - 1
             val nextKey = if (endOfPaginationReached) null else page + 1
             val remoteKeys = players.map {
@@ -54,16 +52,14 @@ class PlayersRemoteMediator(
 
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Player>): PlayerRemoteKey? {
-        return state.lastItemOrNull()?.let { player ->
-            db.withTransaction { db.playerRemoteKeyDao().remoteKeyByPlayerId(player.id) }
-        }
+        return db.playerRemoteKeyDao().getLastRemoteKey()
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Player>): PlayerRemoteKey? {
+    /*private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Player>): PlayerRemoteKey? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
                 db.withTransaction { db.playerRemoteKeyDao().remoteKeyByPlayerId(id) }
             }
         }
-    }
+    }*/
 }

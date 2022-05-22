@@ -17,4 +17,7 @@ interface PlayerRemoteKeyDao {
 
     @Query("DELETE FROM PlayerRemoteKey")
     suspend fun clearAllKeys()
+
+    @Query("SELECT * FROM PlayerRemoteKey ORDER BY nextKey DESC LIMIT 1")
+    suspend fun getLastRemoteKey(): PlayerRemoteKey?
 }

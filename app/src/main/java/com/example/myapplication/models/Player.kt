@@ -33,7 +33,8 @@ data class Player(
             "G-F" -> "Guard-Forward"
             "F-G" -> "Forward-Guard"
             "C-F" -> "Center-Forward"
-            else -> "Forward-Center"
+            "F-C" -> "Forward-Center"
+            else -> "N/A"
         }
     }
 }

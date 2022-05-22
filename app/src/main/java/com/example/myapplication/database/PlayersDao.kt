@@ -13,7 +13,6 @@ interface PlayersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(players: List<Player>)
 
-    // TODO vidi jel treba order by last name
     @Query("SELECT * FROM Player ORDER BY last_name")
     fun pagingSource(): PagingSource<Int, Player>
 
