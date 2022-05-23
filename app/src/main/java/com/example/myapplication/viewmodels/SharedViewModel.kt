@@ -119,14 +119,16 @@ class SharedViewModel : ViewModel() {
 
     fun addFavouritePlayer(context: Context, favouritePlayer: FavouritePlayer) {
         viewModelScope.launch {
-            NBAAppDatabase.getDatabase(context)?.playersDao()?.insertFavouritePlayer(favouritePlayer)
+            NBAAppDatabase.getDatabase(context)?.playersDao()
+                ?.insertFavouritePlayer(favouritePlayer)
             getFavouritePlayers(context)
         }
     }
 
     fun addAllFavouritePlayers(context: Context, favouritePlayers: List<FavouritePlayer>) {
         viewModelScope.launch {
-            NBAAppDatabase.getDatabase(context)?.playersDao()?.insertAllFavouritePlayers(favouritePlayers)
+            NBAAppDatabase.getDatabase(context)?.playersDao()
+                ?.insertAllFavouritePlayers(favouritePlayers)
             getFavouritePlayers(context)
         }
     }
@@ -148,7 +150,8 @@ class SharedViewModel : ViewModel() {
     fun getLastFavouritePlayerPosition(context: Context) {
         viewModelScope.launch {
             lastFavouritePlayerPosition.value =
-                NBAAppDatabase.getDatabase(context)?.playersDao()?.getLastFavouritePlayerPosition() ?: 0
+                NBAAppDatabase.getDatabase(context)?.playersDao()?.getLastFavouritePlayerPosition()
+                    ?: 0
         }
     }
 }

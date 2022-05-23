@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.myapplication.R
 import com.example.myapplication.activities.PlayerDetailsActivity
 import com.example.myapplication.databinding.FragmentPlayerDetailsBinding
 import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.Player
+import com.example.myapplication.viewmodels.SharedViewModel
 
 class PlayerDetailsFragment : Fragment() {
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private var _binding: FragmentPlayerDetailsBinding? = null
 
@@ -34,7 +38,6 @@ class PlayerDetailsFragment : Fragment() {
 
     private fun setViews(player: Player) {
         // Player Details Card
-        //binding.playerDetailsCard.image.setBackgroundResource()
         binding.playerDetailsCard.position.text = player.fullPosition()
         binding.playerDetailsCard.bottomSubDetails.firstDetail.type.text =
             getString(R.string.height)

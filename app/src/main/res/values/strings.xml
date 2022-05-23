@@ -32,7 +32,6 @@
     <string name="balldontlie">balldontlie</string>
     <string name="developer">Developer</string>
     <string name="nino_kovacic">Nino Kovačić</string>
-    <string name="conference">Conference</string>
     <string name="other_teams_label">Other teams in the division</string>
     <string name="home_arena_label">Home Arena</string>
     <string name="details">Details</string>
@@ -49,4 +48,14 @@
     <string name="n_a">N/A</string>
     <string name="all_players">All players</string>
     <string name="all_teams">All teams</string>
+    <string name="conference">Conference</string>
+    <string name="division">Division</string>
+    <string name="western">Western</string>
+    <string name="eastern">Eastern</string>
+    <string name="atlantic">Atlantic</string>
+    <string name="central">Central</string>
+    <string name="northwest">Northwest</string>
+    <string name="pacific">Pacific</string>
+    <string name="southeast">Southeast</string>
+    <string name="southwest">Southwest</string>
 </resources>

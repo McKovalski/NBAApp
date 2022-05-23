@@ -3,6 +3,7 @@ package com.example.myapplication.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,10 @@ import com.example.myapplication.databinding.TeamItemViewBinding
 import com.example.myapplication.fragments.ExploreFragment
 import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.Team
+import java.io.Serializable
 
 private const val EXTRA_TEAM = "team"
+private const val EXTRA_TEAMS_IN_DIVISION = "teamsInDivision"
 
 class TeamsRecyclerAdapter(
     private val context: Context,
@@ -67,8 +70,12 @@ class TeamsRecyclerAdapter(
         }
 
         holder.itemView.setOnClickListener {
+            val teamsInDivision = teamsList.filter {
+                it.division == team.division && it.name != team.name
+            }
             val intent = Intent(context, TeamDetailsActivity::class.java)
                 .putExtra(EXTRA_TEAM, team)
+                .putExtra(EXTRA_TEAMS_IN_DIVISION, teamsInDivision as Serializable)
             context.startActivity(intent)
         }
     }

@@ -39,4 +39,22 @@ class TeamsHelper() {
             else -> Pair(-1, -1)
         }
     }
+
+    fun getDivisionName(division: String): Int {
+        return when (division) {
+            "Atlantic" -> R.string.atlantic
+            "Central" -> R.string.central
+            "Northwest" -> R.string.northwest
+            "Pacific" -> R.string.pacific
+            "Southeast" -> R.string.southeast
+            else -> R.string.southwest
+        }
+    }
+
+    fun getConferenceName(conference: String): Int {
+        return when (conference) {
+            "West" -> R.string.western
+            else -> R.string.eastern
+        }
+    }
 }
