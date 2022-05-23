@@ -1,5 +1,6 @@
 package com.example.myapplication.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,14 +12,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.activities.PlayerDetailsActivity
 import com.example.myapplication.databinding.PlayerItemViewBinding
+import com.example.myapplication.fragments.ExploreFragment
 import com.example.myapplication.models.Player
+import com.example.myapplication.models.Team
 
 private const val EXTRA_PLAYER = "player"
 
 class PlayerPagingAdapter(
     private val context: Context,
+    private val favouritePlayers: MutableList<Player>,
+    private val fragment: ExploreFragment,
     diffCallback: DiffUtil.ItemCallback<Player>
 ) : PagingDataAdapter<Player, PlayerPagingAdapter.PlayerViewHolder>(diffCallback) {
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateFavourites(newFavourites: MutableList<Player>) {
+        favouritePlayers.clear()
+        favouritePlayers.addAll(newFavourites)
+        notifyDataSetChanged()
+    }
 
     class PlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = PlayerItemViewBinding.bind(view)
@@ -42,8 +54,20 @@ class PlayerPagingAdapter(
         holder.binding.name.text = player?.fullName()
         holder.binding.team.text = player?.team?.abbreviation
 
-        // TODO dodaj u favorite
+        holder.binding.iconFavourite.isSelected = player in favouritePlayers
         holder.binding.iconFavourite.setOnClickListener {
+            if (holder.binding.iconFavourite.isSelected) {
+                if (player != null) {
+                    favouritePlayers.remove(player)
+                    fragment.removeFavouritePlayer(player.id)
+                }
+            } else {
+                if (player != null) {
+                    favouritePlayers.add(player)
+                    val newPosition = fragment.getLastFavouritePlayerPosition() + 1
+                    fragment.addFavouritePlayer(player.toFavouritePlayer(newPosition))
+                }
+            }
             holder.binding.iconFavourite.apply { isSelected = !isSelected }
         }
 

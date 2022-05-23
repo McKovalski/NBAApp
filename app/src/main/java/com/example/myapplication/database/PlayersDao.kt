@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.myapplication.models.FavouritePlayer
 import com.example.myapplication.models.Player
 
 @Dao
@@ -18,4 +19,22 @@ interface PlayersDao {
 
     @Query("DELETE FROM Player")
     suspend fun clearAll()
+
+    @Query("SELECT * FROM FavouritePlayer ORDER BY dbOrderPosition")
+    suspend fun getAllFavouritePlayers(): List<FavouritePlayer>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavouritePlayer(favouritePlayer: FavouritePlayer)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllFavouritePlayers(favouritePlayers: List<FavouritePlayer>)
+
+    @Query("DELETE FROM FavouritePlayer WHERE id = :id")
+    suspend fun deleteFavouritePlayerById(id: Int)
+
+    @Query("DELETE FROM FavouritePlayer")
+    suspend fun deleteAllFavouritePlayers()
+
+    @Query("SELECT MAX(dbOrderPosition) FROM FavouritePlayer")
+    suspend fun getLastFavouritePlayerPosition(): Int?
 }

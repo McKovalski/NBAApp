@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.myapplication.database.NBAAppDatabase
+import com.example.myapplication.models.FavouritePlayer
 import com.example.myapplication.models.FavouriteTeam
 import com.example.myapplication.models.Player
 import com.example.myapplication.models.Team
@@ -21,6 +22,8 @@ class SharedViewModel : ViewModel() {
     val allTeams = MutableLiveData<List<Team>>()
     val favouriteTeams = MutableLiveData<List<Team>>()
     val lastFavouriteTeamPosition = MutableLiveData<Int>()
+    val favouritePlayers = MutableLiveData<List<Player>>()
+    val lastFavouritePlayerPosition = MutableLiveData<Int>()
 
     val spinnerSelectedPosition = MutableLiveData<Int>()
 
@@ -101,6 +104,51 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             lastFavouriteTeamPosition.value =
                 NBAAppDatabase.getDatabase(context)?.teamsDao()?.getLastFavouriteTeamPosition() ?: 0
+        }
+    }
+
+    fun getFavouritePlayers(context: Context) {
+        viewModelScope.launch {
+            val players =
+                NBAAppDatabase.getDatabase(context)?.playersDao()?.getAllFavouritePlayers()
+            favouritePlayers.value = players?.map { favouritePlayer ->
+                favouritePlayer.toPlayer()
+            }
+        }
+    }
+
+    fun addFavouritePlayer(context: Context, favouritePlayer: FavouritePlayer) {
+        viewModelScope.launch {
+            NBAAppDatabase.getDatabase(context)?.playersDao()?.insertFavouritePlayer(favouritePlayer)
+            getFavouritePlayers(context)
+        }
+    }
+
+    fun addAllFavouritePlayers(context: Context, favouritePlayers: List<FavouritePlayer>) {
+        viewModelScope.launch {
+            NBAAppDatabase.getDatabase(context)?.playersDao()?.insertAllFavouritePlayers(favouritePlayers)
+            getFavouritePlayers(context)
+        }
+    }
+
+    fun removeFavouritePlayer(context: Context, id: Int) {
+        viewModelScope.launch {
+            NBAAppDatabase.getDatabase(context)?.playersDao()?.deleteFavouritePlayerById(id)
+            getFavouritePlayers(context)
+        }
+    }
+
+    fun removeAllFavouritePlayers(context: Context) {
+        viewModelScope.launch {
+            NBAAppDatabase.getDatabase(context)?.playersDao()?.deleteAllFavouritePlayers()
+            getFavouritePlayers(context)
+        }
+    }
+
+    fun getLastFavouritePlayerPosition(context: Context) {
+        viewModelScope.launch {
+            lastFavouritePlayerPosition.value =
+                NBAAppDatabase.getDatabase(context)?.playersDao()?.getLastFavouritePlayerPosition() ?: 0
         }
     }
 }

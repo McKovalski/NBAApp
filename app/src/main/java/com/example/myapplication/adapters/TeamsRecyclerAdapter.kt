@@ -63,9 +63,7 @@ class TeamsRecyclerAdapter(
                 val newPosition = fragment.getLastFavouriteTeamPosition() + 1
                 fragment.addFavouriteTeam(team.toFavouriteTeam(newPosition))
             }
-            holder.binding.iconFavourite.apply {
-                isSelected = !isSelected
-            }
+            holder.binding.iconFavourite.apply { isSelected = !isSelected }
         }
 
         holder.itemView.setOnClickListener {

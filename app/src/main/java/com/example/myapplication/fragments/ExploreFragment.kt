@@ -16,7 +16,9 @@ import com.example.myapplication.adapters.PlayerDiffCallback
 import com.example.myapplication.adapters.PlayerPagingAdapter
 import com.example.myapplication.adapters.TeamsRecyclerAdapter
 import com.example.myapplication.databinding.FragmentExploreBinding
+import com.example.myapplication.models.FavouritePlayer
 import com.example.myapplication.models.FavouriteTeam
+import com.example.myapplication.models.Player
 import com.example.myapplication.models.Team
 import com.example.myapplication.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -47,13 +49,24 @@ class ExploreFragment : Fragment() {
     override fun onResume() {
         binding.spinner.setSelection(sharedViewModel.spinnerSelectedPosition.value ?: 0)
 
-        val playerPagingAdapter = PlayerPagingAdapter(requireContext(), PlayerDiffCallback)
+        val playerPagingAdapter = PlayerPagingAdapter(
+            requireContext(),
+            mutableListOf(),
+            this,
+            PlayerDiffCallback
+        )
         binding.playersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.playersRecyclerView.adapter = playerPagingAdapter
         lifecycleScope.launch {
             sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
                 playerPagingAdapter.submitData(it)
             }
+        }
+        sharedViewModel.getFavouritePlayers(requireContext())
+        sharedViewModel.favouritePlayers.observe(viewLifecycleOwner) {
+            val favourites = mutableListOf<Player>()
+            favourites.addAll(it)
+            playerPagingAdapter.updateFavourites(favourites)
         }
 
         val allTeams = mutableListOf<Team>()
@@ -102,6 +115,18 @@ class ExploreFragment : Fragment() {
         }
     }
 
+    private fun setPlayersVisibility(isVisible: Boolean) {
+        if (isVisible) {
+            binding.playersRecyclerView.visibility = View.VISIBLE
+            binding.title.text = getString(R.string.all_players)
+            binding.teamsRecyclerView.visibility = View.GONE
+        } else {
+            binding.playersRecyclerView.visibility = View.GONE
+            binding.title.text = getString(R.string.all_teams)
+            binding.teamsRecyclerView.visibility = View.VISIBLE
+        }
+    }
+
     fun addFavouriteTeam(favouriteTeam: FavouriteTeam) {
         sharedViewModel.addFavouriteTeam(requireContext(), favouriteTeam)
     }
@@ -115,15 +140,16 @@ class ExploreFragment : Fragment() {
         return sharedViewModel.lastFavouriteTeamPosition.value ?: 0
     }
 
-    private fun setPlayersVisibility(isVisible: Boolean) {
-        if (isVisible) {
-            binding.playersRecyclerView.visibility = View.VISIBLE
-            binding.title.text = getString(R.string.all_players)
-            binding.teamsRecyclerView.visibility = View.GONE
-        } else {
-            binding.playersRecyclerView.visibility = View.GONE
-            binding.title.text = getString(R.string.all_teams)
-            binding.teamsRecyclerView.visibility = View.VISIBLE
-        }
+    fun addFavouritePlayer(favouritePlayer: FavouritePlayer) {
+        sharedViewModel.addFavouritePlayer(requireContext(), favouritePlayer)
+    }
+
+    fun removeFavouritePlayer(id: Int) {
+        sharedViewModel.removeFavouritePlayer(requireContext(), id)
+    }
+
+    fun getLastFavouritePlayerPosition(): Int {
+        sharedViewModel.getLastFavouritePlayerPosition(requireContext())
+        return sharedViewModel.lastFavouritePlayerPosition.value ?: 0
     }
 }

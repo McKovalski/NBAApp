@@ -37,6 +37,20 @@ data class Player(
             else -> "N/A"
         }
     }
+
+    fun toFavouritePlayer(position: Int): FavouritePlayer {
+        return FavouritePlayer(
+            this.id,
+            this.first_name,
+            this.last_name,
+            this.height_feet,
+            this.height_inches,
+            this.weight_pounds,
+            this.position,
+            this.team,
+            position
+        )
+    }
 }
 
 @Entity
@@ -51,7 +65,20 @@ data class FavouritePlayer(
     val position: String,
     @Embedded val team: Team,
     val dbOrderPosition: Int
-)
+) {
+    fun toPlayer(): Player {
+        return Player(
+            this.id,
+            this.first_name,
+            this.last_name,
+            this.height_feet,
+            this.height_inches,
+            this.weight_pounds,
+            this.position,
+            this.team
+        )
+    }
+}
 
 data class PlayerResponse(
     val data: List<Player>,
