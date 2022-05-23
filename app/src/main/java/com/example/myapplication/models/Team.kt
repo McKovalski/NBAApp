@@ -16,4 +16,49 @@ data class Team(
     val division: String,
     val full_name: String,
     val name: String,
-) : Serializable
+) : Serializable {
+
+    fun toFavouriteTeam(position: Int): FavouriteTeam {
+        return FavouriteTeam(
+            this.id,
+            this.abbreviation,
+            this.city,
+            this.conference,
+            this.division,
+            this.full_name,
+            this.name,
+            position
+        )
+    }
+}
+
+@Entity
+data class FavouriteTeam(
+    @PrimaryKey
+    @ColumnInfo(name = "team_id")
+    val id: Int,
+    val abbreviation: String,
+    val city: String,
+    val conference: String,
+    val division: String,
+    val full_name: String,
+    val name: String,
+    val dbOrderPosition: Int
+) {
+    fun toTeam(): Team {
+        return Team(
+            this.id,
+            this.abbreviation,
+            this.city,
+            this.conference,
+            this.division,
+            this.full_name,
+            this.name
+        )
+    }
+}
+
+data class TeamsResponse(
+    val data: List<Team>,
+    val meta: Meta
+)

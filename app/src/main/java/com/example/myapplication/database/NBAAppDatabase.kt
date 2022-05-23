@@ -4,19 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.myapplication.models.FavouritePlayer
-import com.example.myapplication.models.Player
-import com.example.myapplication.models.PlayerRemoteKey
-import com.example.myapplication.models.Team
+import com.example.myapplication.models.*
 
 @Database(
-    entities = [Player::class, FavouritePlayer::class, Team::class, PlayerRemoteKey::class],
+    entities = [Player::class, FavouritePlayer::class, Team::class, PlayerRemoteKey::class, FavouriteTeam::class],
     version = 1,
     exportSchema = false
 )
 abstract class NBAAppDatabase : RoomDatabase() {
     abstract fun playersDao(): PlayersDao
     abstract fun playerRemoteKeyDao(): PlayerRemoteKeyDao
+    abstract fun teamsDao(): TeamsDao
 
     companion object {
         private var instance: NBAAppDatabase? = null

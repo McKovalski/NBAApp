@@ -2,6 +2,7 @@ package com.example.myapplication.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -9,8 +10,11 @@ import com.example.myapplication.fragments.ExploreFragment
 import com.example.myapplication.fragments.FavouritesFragment
 import com.example.myapplication.fragments.SeasonsFragment
 import com.example.myapplication.fragments.SettingsFragment
+import com.example.myapplication.viewmodels.SharedViewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -19,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedViewModel.getLastFavouriteTeamPosition(this)
+
         // TODO stavi na login fragment ako je prvi put upaljen app (ili nesto slicno)...
         setCurrentFragment(ExploreFragment())
 

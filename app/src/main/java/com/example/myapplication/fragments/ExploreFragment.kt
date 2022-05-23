@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.adapters.PlayerDiffCallback
 import com.example.myapplication.adapters.PlayerPagingAdapter
+import com.example.myapplication.adapters.TeamsRecyclerAdapter
 import com.example.myapplication.databinding.FragmentExploreBinding
+import com.example.myapplication.models.FavouriteTeam
+import com.example.myapplication.models.Team
 import com.example.myapplication.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,16 +39,37 @@ class ExploreFragment : Fragment() {
 
         setupSpinner()
 
-        val playerPagingAdapter = PlayerPagingAdapter(requireContext(), PlayerDiffCallback)
-        binding.recyclerView.adapter = playerPagingAdapter
+        return binding.root
+    }
+
+    override fun onResume() {
+        /*val playerPagingAdapter = PlayerPagingAdapter(requireContext(), PlayerDiffCallback)
+        binding.recyclerView.adapter = playerPagingAdapter*/
+        val allTeams = mutableListOf<Team>()
+        sharedViewModel.getAllTeams(requireContext())
+        sharedViewModel.allTeams.observe(viewLifecycleOwner) {
+            allTeams.addAll(it)
+        }
+        val teamsRecyclerAdapter = TeamsRecyclerAdapter(
+            requireContext(),
+            allTeams,
+            mutableListOf(),
+            this
+        )
+        binding.recyclerView.adapter = teamsRecyclerAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        lifecycleScope.launch {
+        sharedViewModel.getFavouriteTeams(requireContext())
+        sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
+            val favourites = mutableListOf<Team>()
+            favourites.addAll(it)
+            teamsRecyclerAdapter.updateFavourites(favourites)
+        }
+        /*lifecycleScope.launch {
             sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
                 playerPagingAdapter.submitData(it)
             }
-        }
-
-        return binding.root
+        }*/
+        super.onResume()
     }
 
     private fun setupSpinner() {
@@ -55,5 +79,18 @@ class ExploreFragment : Fragment() {
             arrayOf("Players", "Teams")
         )
         binding.spinner.adapter = adapter
+    }
+
+    fun addFavouriteTeam(favouriteTeam: FavouriteTeam) {
+        sharedViewModel.addFavouriteTeam(requireContext(), favouriteTeam)
+    }
+
+    fun removeFavouriteTeam(teamId: Int) {
+        sharedViewModel.removeFavouriteTeam(requireContext(), teamId)
+    }
+
+    fun getLastFavouriteTeamPosition(): Int {
+        sharedViewModel.getLastFavouriteTeamPosition(requireContext())
+        return sharedViewModel.lastFavouriteTeamPosition.value ?: 0
     }
 }
