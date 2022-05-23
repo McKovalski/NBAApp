@@ -22,6 +22,8 @@ class SharedViewModel : ViewModel() {
     val favouriteTeams = MutableLiveData<List<Team>>()
     val lastFavouriteTeamPosition = MutableLiveData<Int>()
 
+    val spinnerSelectedPosition = MutableLiveData<Int>()
+
     @ExperimentalPagingApi
     fun getPlayerPaginatedFlow(context: Context): Flow<PagingData<Player>> {
         val database = NBAAppDatabase.getDatabase(context)!!

@@ -47,4 +47,6 @@
     <string name="height">Height</string>
     <string name="weight">Weight</string>
     <string name="n_a">N/A</string>
+    <string name="all_players">All players</string>
+    <string name="all_teams">All teams</string>
 </resources>

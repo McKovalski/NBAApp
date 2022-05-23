@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +31,6 @@ class ExploreFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    @ExperimentalPagingApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,13 +38,24 @@ class ExploreFragment : Fragment() {
         _binding = FragmentExploreBinding.inflate(inflater, container, false)
 
         setupSpinner()
+        setPlayersVisibility(true)
 
         return binding.root
     }
 
+    @ExperimentalPagingApi
     override fun onResume() {
-        /*val playerPagingAdapter = PlayerPagingAdapter(requireContext(), PlayerDiffCallback)
-        binding.recyclerView.adapter = playerPagingAdapter*/
+        binding.spinner.setSelection(sharedViewModel.spinnerSelectedPosition.value ?: 0)
+
+        val playerPagingAdapter = PlayerPagingAdapter(requireContext(), PlayerDiffCallback)
+        binding.playersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.playersRecyclerView.adapter = playerPagingAdapter
+        lifecycleScope.launch {
+            sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
+                playerPagingAdapter.submitData(it)
+            }
+        }
+
         val allTeams = mutableListOf<Team>()
         sharedViewModel.getAllTeams(requireContext())
         sharedViewModel.allTeams.observe(viewLifecycleOwner) {
@@ -56,19 +67,14 @@ class ExploreFragment : Fragment() {
             mutableListOf(),
             this
         )
-        binding.recyclerView.adapter = teamsRecyclerAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.teamsRecyclerView.adapter = teamsRecyclerAdapter
+        binding.teamsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         sharedViewModel.getFavouriteTeams(requireContext())
         sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
             val favourites = mutableListOf<Team>()
             favourites.addAll(it)
             teamsRecyclerAdapter.updateFavourites(favourites)
         }
-        /*lifecycleScope.launch {
-            sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
-                playerPagingAdapter.submitData(it)
-            }
-        }*/
         super.onResume()
     }
 
@@ -76,9 +82,24 @@ class ExploreFragment : Fragment() {
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.spinner_item, //TODO popraviti izgled dropdown menija
-            arrayOf("Players", "Teams")
+            arrayOf(getString(R.string.players), getString(R.string.teams))
         )
         binding.spinner.adapter = adapter
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                sharedViewModel.spinnerSelectedPosition.value = position
+                if (position == 0) {
+                    setPlayersVisibility(true)
+                } else {
+                    setPlayersVisibility(false)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                // ne treba
+            }
+
+        }
     }
 
     fun addFavouriteTeam(favouriteTeam: FavouriteTeam) {
@@ -92,5 +113,17 @@ class ExploreFragment : Fragment() {
     fun getLastFavouriteTeamPosition(): Int {
         sharedViewModel.getLastFavouriteTeamPosition(requireContext())
         return sharedViewModel.lastFavouriteTeamPosition.value ?: 0
+    }
+
+    private fun setPlayersVisibility(isVisible: Boolean) {
+        if (isVisible) {
+            binding.playersRecyclerView.visibility = View.VISIBLE
+            binding.title.text = getString(R.string.all_players)
+            binding.teamsRecyclerView.visibility = View.GONE
+        } else {
+            binding.playersRecyclerView.visibility = View.GONE
+            binding.title.text = getString(R.string.all_teams)
+            binding.teamsRecyclerView.visibility = View.VISIBLE
+        }
     }
 }
