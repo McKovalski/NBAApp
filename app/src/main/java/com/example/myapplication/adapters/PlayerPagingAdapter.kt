@@ -17,6 +17,7 @@ import com.example.myapplication.models.Player
 import com.example.myapplication.models.Team
 
 private const val EXTRA_PLAYER = "player"
+private const val EXTRA_IS_FAVOURITE: String = "isFavourite"
 
 class PlayerPagingAdapter(
     private val context: Context,
@@ -74,6 +75,7 @@ class PlayerPagingAdapter(
         holder.itemView.setOnClickListener {
             val intent = Intent(context, PlayerDetailsActivity::class.java)
                 .putExtra(EXTRA_PLAYER, player)
+                .putExtra(EXTRA_IS_FAVOURITE, holder.binding.iconFavourite.isSelected)
             context.startActivity(intent)
         }
     }

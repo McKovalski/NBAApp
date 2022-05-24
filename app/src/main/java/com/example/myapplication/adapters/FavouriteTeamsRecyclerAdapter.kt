@@ -20,6 +20,7 @@ import java.util.*
 
 private const val EXTRA_TEAM = "team"
 private const val EXTRA_TEAMS_IN_DIVISION = "teamsInDivision"
+private const val EXTRA_IS_FAVOURITE: String = "isFavourite"
 
 @SuppressLint("NotifyDataSetChanged")
 class FavouriteTeamsRecyclerAdapter(
@@ -86,6 +87,7 @@ class FavouriteTeamsRecyclerAdapter(
             val intent = Intent(context, TeamDetailsActivity::class.java)
                 .putExtra(EXTRA_TEAM, team)
                 .putExtra(EXTRA_TEAMS_IN_DIVISION, teamsInDivision as Serializable)
+                .putExtra(EXTRA_IS_FAVOURITE, true)
             context.startActivity(intent)
         }
     }

@@ -15,6 +15,7 @@ import com.example.myapplication.models.Player
 import java.util.*
 
 private const val EXTRA_PLAYER = "player"
+private const val EXTRA_IS_FAVOURITE: String = "isFavourite"
 
 @SuppressLint("NotifyDataSetChanged")
 class FavouritePlayersRecyclerAdapter(
@@ -77,6 +78,7 @@ class FavouritePlayersRecyclerAdapter(
         holder.itemView.setOnClickListener {
             val intent = Intent(context, PlayerDetailsActivity::class.java)
                 .putExtra(EXTRA_PLAYER, player)
+                .putExtra(EXTRA_IS_FAVOURITE, true)
             context.startActivity(intent)
         }
     }

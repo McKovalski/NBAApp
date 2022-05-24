@@ -19,6 +19,7 @@ import java.io.Serializable
 
 private const val EXTRA_TEAM = "team"
 private const val EXTRA_TEAMS_IN_DIVISION = "teamsInDivision"
+private const val EXTRA_IS_FAVOURITE: String = "isFavourite"
 
 class TeamsRecyclerAdapter(
     private val context: Context,
@@ -76,6 +77,7 @@ class TeamsRecyclerAdapter(
             val intent = Intent(context, TeamDetailsActivity::class.java)
                 .putExtra(EXTRA_TEAM, team)
                 .putExtra(EXTRA_TEAMS_IN_DIVISION, teamsInDivision as Serializable)
+                .putExtra(EXTRA_IS_FAVOURITE, holder.binding.iconFavourite.isSelected)
             context.startActivity(intent)
         }
     }
