@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="2021" />
+            android:text="2021" />
 
         <TextView
             android:id="@+id/second_season"
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="2020" />
+            android:text="2020" />
 
         <TextView
             android:id="@+id/third_season"
@@ -52,7 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="2019" />
+            android:text="2019" />
 
         <TextView
             android:id="@+id/fourth_season"
@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="2018" />
+            android:text="2018" />
 
     </LinearLayout>
 

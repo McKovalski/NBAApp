@@ -57,8 +57,3 @@ data class FavouriteTeam(
         )
     }
 }
-
-data class TeamsResponse(
-    val data: List<Team>,
-    val meta: Meta
-)

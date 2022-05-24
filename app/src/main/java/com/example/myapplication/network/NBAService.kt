@@ -1,8 +1,8 @@
 package com.example.myapplication.network
 
-import com.example.myapplication.models.Player
-import com.example.myapplication.models.PlayerResponse
-import com.example.myapplication.models.TeamsResponse
+import com.example.myapplication.network.models.PlayerResponse
+import com.example.myapplication.network.models.SeasonAveragesResponse
+import com.example.myapplication.network.models.TeamsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -22,5 +22,11 @@ interface NBAService {
     ): PlayerResponse
 
     @GET("teams")
-    suspend fun getTeams() : TeamsResponse
+    suspend fun getTeams(): TeamsResponse
+
+    @GET("season_averages")
+    suspend fun getSeasonAveragesForPlayer(
+        @Query("season") season: Int?,
+        @Query("player_ids[]") playerIds: Array<Int>
+    ): SeasonAveragesResponse
 }

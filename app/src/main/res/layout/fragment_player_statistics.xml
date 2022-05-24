@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.PlayerStatisticsFragment"
-    android:background="@color/surface_surface_0">
+    android:background="@color/surface_surface_0"
+    tools:context=".fragments.PlayerStatisticsFragment">
 
     <include
         android:id="@+id/seasons_mask"
@@ -14,26 +14,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/first_row"
-        layout="@layout/stats_table_row"
+    <LinearLayout
+        android:id="@+id/stats_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/seasons_mask"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/seasons_mask">
 
-    <include
-        android:id="@+id/second_row"
-        layout="@layout/stats_table_row"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/first_row"/>
-
-    <include
-        android:id="@+id/third_row"
-        layout="@layout/stats_table_row"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/second_row"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

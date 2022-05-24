@@ -24,13 +24,15 @@ class PlayerDetailsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var player: Player
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlayerDetailsBinding.inflate(inflater, container, false)
 
-        val player = (activity as PlayerDetailsActivity).player
+        player = (activity as PlayerDetailsActivity).player
         setViews(player)
 
         return binding.root
