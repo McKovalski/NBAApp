@@ -58,4 +58,5 @@
     <string name="pacific">Pacific</string>
     <string name="southeast">Southeast</string>
     <string name="southwest">Southwest</string>
+    <string name="removed_from_favourites">Removed %1$s from Favourites</string>
 </resources>
