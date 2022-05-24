@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/match_display_card" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/clear_my_cities_button"
+        android:id="@+id/clear_my_favourites_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

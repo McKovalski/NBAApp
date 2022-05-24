@@ -24,6 +24,7 @@
     <string name="cancel">Cancel</string>
     <string name="clear">Clear</string>
     <string name="clear_favourites_list_question">Clear favourites list?</string>
+    <string name="clear_favourites_body">If you clear your favourites, your favourites screen will be empty.</string>
     <string name="sofa_score_academy">Sofa Score Academy</string>
     <string name="class_2022">Class 2022</string>
     <string name="app_name_label">App name</string>
@@ -59,4 +60,5 @@
     <string name="southeast">Southeast</string>
     <string name="southwest">Southwest</string>
     <string name="removed_from_favourites">Removed %1$s from Favourites</string>
+    <string name="favourites_list_is_clear">Favourites list is clear</string>
 </resources>
