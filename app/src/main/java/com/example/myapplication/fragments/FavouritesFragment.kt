@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -122,9 +123,17 @@ class FavouritesFragment : Fragment() {
         val snackbar = Snackbar.make(
             requireView(),
             getString(R.string.removed_from_favourites, title),
-            Snackbar.LENGTH_SHORT
+            Snackbar.LENGTH_LONG
         )
+        val textView =
+            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_white, 0)
         snackbar.setAnchorView(R.id.bottomNavigationView)
+        snackbar.view.setPadding(16, 18, 16, 18)
+        snackbar.view.setBackgroundResource(R.drawable.snackbar_background)
+        textView.setOnClickListener {
+            snackbar.dismiss()
+        }
         snackbar.show()
     }
 
@@ -146,11 +155,11 @@ class FavouritesFragment : Fragment() {
             val toPosition = target.adapterPosition
             if (fromPosition < toPosition) {
                 for (i in fromPosition until toPosition) {
-                    Collections.swap(favouritePlayers, i, i+1)
+                    Collections.swap(favouritePlayers, i, i + 1)
                 }
             } else {
                 for (i in toPosition until fromPosition) {
-                    Collections.swap(favouritePlayers, i, i+1)
+                    Collections.swap(favouritePlayers, i, i + 1)
                 }
             }
             (binding.recyclerPlayers.adapter as FavouritePlayersRecyclerAdapter).swapItems(
@@ -183,11 +192,11 @@ class FavouritesFragment : Fragment() {
             val toPosition = target.adapterPosition
             if (fromPosition < toPosition) {
                 for (i in fromPosition until toPosition) {
-                    Collections.swap(favouriteTeams, i, i+1)
+                    Collections.swap(favouriteTeams, i, i + 1)
                 }
             } else {
                 for (i in toPosition until fromPosition) {
-                    Collections.swap(favouriteTeams, i, i+1)
+                    Collections.swap(favouriteTeams, i, i + 1)
                 }
             }
             (binding.recyclerTeams.adapter as FavouriteTeamsRecyclerAdapter).swapItems(
