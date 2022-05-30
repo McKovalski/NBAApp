@@ -4,18 +4,23 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.models.*
 import com.example.myapplication.network.NetworkRepo
+import com.example.myapplication.network.models.SeasonAveragesResponse
 import com.example.myapplication.network.paging.PlayersRemoteMediator
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.*
 
 private const val PLAYER_PAGE_SIZE = 20
+private val CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR)
 
 class SharedViewModel : ViewModel() {
 
@@ -26,8 +31,8 @@ class SharedViewModel : ViewModel() {
     val lastFavouritePlayerPosition = MutableLiveData<Int>()
 
     val spinnerSelectedPosition = MutableLiveData<Int>()
-    val playersLastSeason = MutableLiveData<Int>()
-    val seasonAveragesForPlayer = MutableLiveData<List<SeasonAverages>>()
+    val playerSeasons = MutableLiveData<List<Int>>()
+    val seasonAveragesForPlayer = MutableLiveData<SeasonAverages?>()
 
     @ExperimentalPagingApi
     fun getPlayerPaginatedFlow(context: Context): Flow<PagingData<Player>> {
@@ -157,41 +162,37 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun getPlayersLastSeason(playerId: Int) {
+    fun getPlayerSeasons(playerId: Int) {
+        Log.d("Player id", playerId.toString())
         viewModelScope.launch {
-            playersLastSeason.value =
-                NetworkRepo().getSeasonAveragesForPlayer(null, arrayOf(playerId)).data[0].season
-            Log.d("Last season", playersLastSeason.value.toString())
+            val firstSeasonResponse = NetworkRepo().getStatsForPlayer(
+                null,
+                1,
+                arrayOf(playerId),
+                false
+            )
+            val firstSeason = firstSeasonResponse.data?.get(0)?.game?.season
+            val lastPage = firstSeasonResponse.meta.total_pages
+            val lastSeason = NetworkRepo().getStatsForPlayer(
+                lastPage,
+                1,
+                arrayOf(playerId),
+                false
+            ).data?.get(0)?.game?.season
+            if (firstSeason == null && lastSeason == null) {
+                playerSeasons.value = listOf()
+            } else if (firstSeason != null && lastSeason == null) {
+                playerSeasons.value = listOf(firstSeason)
+            } else if (firstSeason != null && lastSeason != null) {
+                playerSeasons.value = (firstSeason..lastSeason).map { it }
+            }
         }
     }
 
     fun getSeasonAveragesForPlayer(playerId: Int, season: Int?) {
         viewModelScope.launch {
-            //getPlayersLastSeason(playerId)
-            val lastSeason = 2021
-            // list of seasons to show
-            val seasons = mutableListOf(
-                lastSeason,
-                lastSeason.minus(1),
-                lastSeason.minus(2),
-                lastSeason.minus(3)
-            )
-            // if one of the seasons is our season, then we move it to the start
-            // if it's not, then we remove the last season and prepend ours
-            if (season != null) {
-                if (season in seasons) {
-                    seasons.remove(season)
-                } else {
-                    seasons.removeLast()
-                }
-                seasons.add(0, season)
-            }
-            val seasonAverages = seasons.map { s ->
-                async {
-                    NetworkRepo().getSeasonAveragesForPlayer(s, arrayOf(playerId)).data[0]
-                }
-            }
-            seasonAveragesForPlayer.value = seasonAverages.awaitAll()
+            val response = NetworkRepo().getSeasonAveragesForPlayer(season, arrayOf(playerId))
+            seasonAveragesForPlayer.value = response.data?.get(0)
         }
     }
 }

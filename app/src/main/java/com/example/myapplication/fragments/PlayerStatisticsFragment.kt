@@ -10,8 +10,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.activities.PlayerDetailsActivity
+import com.example.myapplication.adapters.PlayerStatsRecyclerAdapter
 import com.example.myapplication.databinding.FragmentPlayerStatisticsBinding
 import com.example.myapplication.databinding.StatsTableRowBinding
 import com.example.myapplication.models.Player
@@ -27,120 +29,107 @@ class PlayerStatisticsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var fragmentContainer: ViewGroup
 
     private lateinit var player: Player
-    private var playersLastSeason = 0
-    private val statsMap = linkedMapOf<String, MutableList<Float>>(
-        "min" to mutableListOf(),
-        "fgm" to mutableListOf(),
-        "fg3m" to mutableListOf(),
-        "fg3a" to mutableListOf(),
-        "ftm" to mutableListOf(),
-        "fta" to mutableListOf(),
-        "oreb" to mutableListOf(),
-        "reb" to mutableListOf(),
-        "ast" to mutableListOf(),
-        "stl" to mutableListOf(),
-        "blk" to mutableListOf(),
-        "turnover" to mutableListOf(),
-        "pf" to mutableListOf(),
-        "pts" to mutableListOf(),
-        "fg_pct" to mutableListOf(),
-        "fg3_pct" to mutableListOf(),
-        "ft_pct" to mutableListOf()
+    private val statsMap = linkedMapOf<String, Float>(
+        "min" to 0f,
+        "fgm" to 0f,
+        "fga" to 0f,
+        "fg3m" to 0f,
+        "fg3a" to 0f,
+        "ftm" to 0f,
+        "fta" to 0f,
+        "oreb" to 0f,
+        "dreb" to 0f,
+        "reb" to 0f,
+        "ast" to 0f,
+        "stl" to 0f,
+        "blk" to 0f,
+        "turnover" to 0f,
+        "pf" to 0f,
+        "pts" to 0f,
+        "fg_pct" to 0f,
+        "fg3_pct" to 0f,
+        "ft_pct" to 0f
     )
+    private val statsAdapter by lazy {
+        PlayerStatsRecyclerAdapter(
+            requireContext(),
+            statsMap
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlayerStatisticsBinding.inflate(inflater, container, false)
-        fragmentContainer = container!!
+
+        binding.statsRecyclerView.adapter = statsAdapter
+        binding.statsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         player = (activity as PlayerDetailsActivity).player
 
-        //setupSpinner()
+        val seasons = mutableListOf<Int>()
+        sharedViewModel.getPlayerSeasons(player.id)
+        sharedViewModel.playerSeasons.observe(viewLifecycleOwner) {
+            seasons.addAll(it)
+            seasons.sortDescending()
+            Log.d("seasons", seasons.toString())
+            if (seasons.isNullOrEmpty()) {
+                binding.seasonsMask.spinnerSeason.setText(getString(R.string.n_a))
+
+            } else {
+                setupSpinner(seasons)
+                sharedViewModel.getSeasonAveragesForPlayer(player.id, seasons[0])
+            }
+        }
 
         return binding.root
     }
 
     override fun onResume() {
-        sharedViewModel.getSeasonAveragesForPlayer(237, null)
         sharedViewModel.seasonAveragesForPlayer.observe(viewLifecycleOwner) {
-            statsMap.forEach { (_, list) ->
-                list.clear()
-            }
-            for (seasonAverages in it) {
-                statsMap["min"]?.add(seasonAverages.getMinutes())
-                statsMap["fgm"]?.add(seasonAverages.fgm)
-                statsMap["fg3m"]?.add(seasonAverages.fg3m)
-                statsMap["fg3a"]?.add(seasonAverages.fg3a)
-                statsMap["ftm"]?.add(seasonAverages.ftm)
-                statsMap["fta"]?.add(seasonAverages.fta)
-                statsMap["oreb"]?.add(seasonAverages.oreb)
-                statsMap["reb"]?.add(seasonAverages.reb)
-                statsMap["ast"]?.add(seasonAverages.ast)
-                statsMap["stl"]?.add(seasonAverages.stl)
-                statsMap["blk"]?.add(seasonAverages.blk)
-                statsMap["turnover"]?.add(seasonAverages.turnover)
-                statsMap["pf"]?.add(seasonAverages.pf)
-                statsMap["pts"]?.add(seasonAverages.pts)
-                statsMap["fg_pct"]?.add(seasonAverages.fg_pct * 100)
-                statsMap["fg3_pct"]?.add(seasonAverages.fg3_pct * 100)
-                statsMap["ft_pct"]?.add(seasonAverages.ft_pct * 100)
-            }
-            Log.d("Stats", statsMap.toString())
-            binding.statsLayout.removeAllViews()
-            statsMap.forEach { (key, list) ->
-                val rowView = LayoutInflater.from(requireContext())
-                    .inflate(R.layout.stats_table_row, fragmentContainer, false)
-                val rowBinding = StatsTableRowBinding.bind(rowView)
-                rowBinding.apply {
-                    statLabel.text = key
-                    firstStat.text = String.format("%.1f", list[0])
-                    secondStat.text = String.format("%.1f", list[1])
-                    thirdStat.text = String.format("%.1f", list[2])
-                    fourthStat.text = String.format("%.1f", list[3])
-                }
-                when (list.indexOf(Collections.max(list))) {
-                    0 -> rowBinding.firstStat.apply {
-                        setBackgroundResource(R.drawable.statistics_highlight)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.color_primary))
-                    }
-                    1 -> rowBinding.secondStat.apply {
-                        setBackgroundResource(R.drawable.statistics_highlight)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.color_primary))
-                    }
-                    2 -> rowBinding.thirdStat.apply {
-                        setBackgroundResource(R.drawable.statistics_highlight)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.color_primary))
-                    }
-                    3 -> rowBinding.fourthStat.apply {
-                        setBackgroundResource(R.drawable.statistics_highlight)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.color_primary))
-                    }
-                }
-                rowView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT)
-                binding.statsLayout.addView(rowView)
+            if (it != null) {
+                statsMap["min"] = it.getMinutes()
+                statsMap["fgm"] = it.fgm
+                statsMap["fga"] = it.fga
+                statsMap["fg3m"] = it.fg3m
+                statsMap["fg3a"] = it.fg3a
+                statsMap["ftm"] = it.ftm
+                statsMap["fta"] = it.fta
+                statsMap["oreb"] = it.oreb
+                statsMap["dreb"] = it.dreb
+                statsMap["reb"] = it.reb
+                statsMap["ast"] = it.ast
+                statsMap["stl"] = it.stl
+                statsMap["blk"] = it.blk
+                statsMap["turnover"] = it.turnover
+                statsMap["pf"] = it.pf
+                statsMap["pts"] = it.pts
+                statsMap["fg_pct"] = it.fg3_pct * 100
+                statsMap["fg3_pct"] = it.fg3_pct * 100
+                statsMap["ft_pct"] = it.ft_pct * 100
+                Log.d("Stats", statsMap.toString())
+
+                statsAdapter.updateStats(statsMap)
             }
         }
 
         super.onResume()
     }
 
-    /*private fun setupSpinner() {
+    private fun setupSpinner(seasons: List<Int>) {
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_list_item_1, //TODO popraviti izgled dropdown menija
-            arrayOf(2021, 2020, 2019, 2018, 2017, 2016)
+            android.R.layout.simple_list_item_1,
+            seasons
         )
-        binding.seasonsMask.firstSeason.setAdapter(adapter)
-        binding.seasonsMask.firstSeason.setSelection(0)
-        binding.seasonsMask.firstSeason.setOnItemClickListener { adapterView, _, position, _ ->
+        binding.seasonsMask.spinnerSeason.setAdapter(adapter)
+        binding.seasonsMask.spinnerSeason.setText(seasons[0].toString(), false)
+        binding.seasonsMask.spinnerSeason.setOnItemClickListener { adapterView, _, position, _ ->
             val season = adapterView?.getItemAtPosition(position) as Int
             sharedViewModel.getSeasonAveragesForPlayer(player.id, season)
         }
-    }*/
+    }
 }
