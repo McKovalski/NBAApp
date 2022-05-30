@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,14 @@ import androidx.fragment.app.activityViewModels
 import com.example.myapplication.R
 import com.example.myapplication.activities.PlayerDetailsActivity
 import com.example.myapplication.adapters.ImagePagerAdapter
+import com.example.myapplication.databinding.AboutCardBinding.inflate
+import com.example.myapplication.databinding.AddImageBottomSheetLayoutBinding
 import com.example.myapplication.databinding.FragmentPlayerDetailsBinding
 import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.Player
 import com.example.myapplication.models.PlayerImage
 import com.example.myapplication.viewmodels.SharedViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class PlayerDetailsFragment : Fragment() {
 
@@ -46,8 +50,43 @@ class PlayerDetailsFragment : Fragment() {
         }
 
         setViews(player)
+        setBottomSheetDialog()
 
         return binding.root
+    }
+
+    private fun setBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val view = LayoutInflater.from(requireContext())
+            .inflate(R.layout.add_image_bottom_sheet_layout, null)
+        val bottomSheetBinding = AddImageBottomSheetLayoutBinding.bind(view)
+        bottomSheetBinding.buttonCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetBinding.buttonAdd.setOnClickListener {
+            val imageUrl = bottomSheetBinding.urlInputEditText.text.toString()
+            val imageCaption = bottomSheetBinding.captionInputEditText.text.toString()
+            if (!Patterns.WEB_URL.matcher(imageUrl).matches()) {
+                bottomSheetBinding.urlInputLayout.error = getString(R.string.invalid_url)
+            } else if (imageCaption.isEmpty()) {
+                bottomSheetBinding.urlInputLayout.error = ""
+                bottomSheetBinding.captionInputLayout.error =
+                    getString(R.string.caption_cannot_be_blank)
+            } else {
+                sharedViewModel.postPlayerImage(player.id, imageUrl, imageCaption)
+                bottomSheetBinding.urlInputEditText.text?.clear()
+                bottomSheetBinding.urlInputLayout.error = ""
+                bottomSheetBinding.urlInputLayout.clearFocus()
+                bottomSheetBinding.captionInputEditText.text?.clear()
+                bottomSheetBinding.captionInputLayout.error = ""
+                bottomSheetBinding.captionInputLayout.clearFocus()
+                bottomSheetDialog.dismiss()
+            }
+        }
+        bottomSheetDialog.setContentView(view)
+        binding.playerDetailsCard.iconAddPhoto.setOnClickListener {
+            bottomSheetDialog.show()
+        }
     }
 
     private fun setViews(player: Player) {

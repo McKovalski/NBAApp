@@ -1,5 +1,6 @@
 package com.example.myapplication.network
 
+import com.example.myapplication.models.PlayerImagePost
 import com.example.myapplication.network.models.*
 import retrofit2.Response
 
@@ -31,5 +32,9 @@ class NetworkRepo {
 
     suspend fun getPlayerImages(playerId: Int): Response<PlayerImagesResponse> {
         return Network().getSofaScoreService().getPlayerImages(playerId)
+    }
+
+    suspend fun postPlayerImage(image: PlayerImagePost): Response<Unit> {
+        return Network().getSofaScoreService().postPlayerImage(image)
     }
 }

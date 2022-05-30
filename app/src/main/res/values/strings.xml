@@ -63,4 +63,11 @@
     <string name="removed_from_favourites">Removed %1$s from Favourites</string>
     <string name="favourites_list_is_clear">Favourites list is clear</string>
     <string name="stats_per_game">Stats (per game)</string>
+    <string name="add_player_photo">Add player photo</string>
+    <string name="url">URL</string>
+    <string name="paste_video_url">Paste video URL</string>
+    <string name="photo_title">Photo Title</string>
+    <string name="add">Add</string>
+    <string name="caption_cannot_be_blank">Caption cannot be blank</string>
+    <string name="invalid_url">Invalid URL</string>
 </resources>

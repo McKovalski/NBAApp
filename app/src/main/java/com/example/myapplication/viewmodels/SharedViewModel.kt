@@ -203,4 +203,12 @@ class SharedViewModel : ViewModel() {
             }
         }
     }
+
+    fun postPlayerImage(playerId: Int, imageUrl: String, imageCaption: String) {
+        viewModelScope.launch {
+            val image = PlayerImagePost(playerId, imageUrl, imageCaption)
+            NetworkRepo().postPlayerImage(image)
+            getPlayerImages(playerId)
+        }
+    }
 }
