@@ -1,9 +1,6 @@
 package com.example.myapplication.network.models
 
-import com.example.myapplication.models.Player
-import com.example.myapplication.models.SeasonAverages
-import com.example.myapplication.models.Stats
-import com.example.myapplication.models.Team
+import com.example.myapplication.models.*
 
 data class PlayerResponse(
     val data: List<Player>,
@@ -22,6 +19,10 @@ data class SeasonAveragesResponse(
 data class StatsResponse(
     val data: List<Stats>?,
     val meta: Meta
+)
+
+data class PlayerImagesResponse(
+    val data: List<PlayerImage>?
 )
 
 data class Meta(

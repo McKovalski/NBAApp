@@ -4,23 +4,18 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.models.*
 import com.example.myapplication.network.NetworkRepo
-import com.example.myapplication.network.models.SeasonAveragesResponse
+import com.example.myapplication.network.models.PlayerImagesResponse
 import com.example.myapplication.network.paging.PlayersRemoteMediator
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.*
+import retrofit2.Response
 
 private const val PLAYER_PAGE_SIZE = 20
-private val CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR)
 
 class SharedViewModel : ViewModel() {
 
@@ -33,6 +28,8 @@ class SharedViewModel : ViewModel() {
     val spinnerSelectedPosition = MutableLiveData<Int>()
     val playerSeasons = MutableLiveData<List<Int>>()
     val seasonAveragesForPlayer = MutableLiveData<SeasonAverages?>()
+
+    val playerImages = MutableLiveData<List<PlayerImage>>()
 
     @ExperimentalPagingApi
     fun getPlayerPaginatedFlow(context: Context): Flow<PagingData<Player>> {
@@ -193,6 +190,17 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             val response = NetworkRepo().getSeasonAveragesForPlayer(season, arrayOf(playerId))
             seasonAveragesForPlayer.value = response.data?.get(0)
+        }
+    }
+
+    fun getPlayerImages(playerId: Int) {
+        viewModelScope.launch {
+            val response = NetworkRepo().getPlayerImages(playerId)
+            if (response.isSuccessful) {
+                playerImages.value = response.body()?.data!!
+            } else {
+                playerImages.value = listOf()
+            }
         }
     }
 }

@@ -1,25 +1,23 @@
 package com.example.myapplication.network
 
-import com.example.myapplication.network.models.PlayerResponse
-import com.example.myapplication.network.models.SeasonAveragesResponse
-import com.example.myapplication.network.models.StatsResponse
-import com.example.myapplication.network.models.TeamsResponse
+import com.example.myapplication.network.models.*
+import retrofit2.Response
 
 class NetworkRepo {
 
     suspend fun getPlayers(page: Int?, perPage: Int?): PlayerResponse {
-        return Network().getService().getPlayers(page, perPage)
+        return Network().getNbaService().getPlayers(page, perPage)
     }
 
     suspend fun getTeams(): TeamsResponse {
-        return Network().getService().getTeams()
+        return Network().getNbaService().getTeams()
     }
 
     suspend fun getSeasonAveragesForPlayer(
         season: Int?,
         playerIds: Array<Int>
     ): SeasonAveragesResponse {
-        return Network().getService().getSeasonAveragesForPlayer(season, playerIds)
+        return Network().getNbaService().getSeasonAveragesForPlayer(season, playerIds)
     }
 
     suspend fun getStatsForPlayer(
@@ -28,6 +26,10 @@ class NetworkRepo {
         playerIds: Array<Int>,
         postseason: Boolean?
     ): StatsResponse {
-        return Network().getService().getStatsForPlayer(page, perPage, playerIds, postseason)
+        return Network().getNbaService().getStatsForPlayer(page, perPage, playerIds, postseason)
+    }
+
+    suspend fun getPlayerImages(playerId: Int): Response<PlayerImagesResponse> {
+        return Network().getSofaScoreService().getPlayerImages(playerId)
     }
 }

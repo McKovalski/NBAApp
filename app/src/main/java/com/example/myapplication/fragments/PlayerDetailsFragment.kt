@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.myapplication.R
 import com.example.myapplication.activities.PlayerDetailsActivity
+import com.example.myapplication.adapters.ImagePagerAdapter
 import com.example.myapplication.databinding.FragmentPlayerDetailsBinding
 import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.Player
+import com.example.myapplication.models.PlayerImage
 import com.example.myapplication.viewmodels.SharedViewModel
 
 class PlayerDetailsFragment : Fragment() {
@@ -33,6 +35,16 @@ class PlayerDetailsFragment : Fragment() {
         _binding = FragmentPlayerDetailsBinding.inflate(inflater, container, false)
 
         player = (activity as PlayerDetailsActivity).player
+
+        sharedViewModel.getPlayerImages(player.id)
+        sharedViewModel.playerImages.observe(viewLifecycleOwner) {
+            val images = mutableListOf<PlayerImage>()
+            images.addAll(it)
+            val imagePagerAdapter = ImagePagerAdapter(requireContext(), images)
+            binding.playerDetailsCard.viewPager.adapter = imagePagerAdapter
+            binding.playerDetailsCard.circleIndicator.setViewPager(binding.playerDetailsCard.viewPager)
+        }
+
         setViews(player)
 
         return binding.root
@@ -52,6 +64,11 @@ class PlayerDetailsFragment : Fragment() {
         binding.playerDetailsCard.teamName.text = player.team.full_name
         val (logoId, colorId) = TeamsHelper().getLogoAndColor(player.team.name)
         binding.playerDetailsCard.teamLogo.image.setImageResource(logoId)
-        binding.playerDetailsCard.teamLogo.backgroundCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), colorId))
+        binding.playerDetailsCard.teamLogo.backgroundCard.setCardBackgroundColor(
+            ContextCompat.getColorStateList(
+                requireContext(),
+                colorId
+            )
+        )
     }
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication.network
+package com.example.myapplication.network.services
 
 import com.example.myapplication.network.models.PlayerResponse
 import com.example.myapplication.network.models.SeasonAveragesResponse
