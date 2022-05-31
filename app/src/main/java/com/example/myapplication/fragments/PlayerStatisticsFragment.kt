@@ -107,12 +107,14 @@ class PlayerStatisticsFragment : Fragment() {
                 statsMap["turnover"] = it.turnover
                 statsMap["pf"] = it.pf
                 statsMap["pts"] = it.pts
-                statsMap["fg_pct"] = it.fg3_pct * 100
+                statsMap["fg_pct"] = it.fg_pct * 100
                 statsMap["fg3_pct"] = it.fg3_pct * 100
                 statsMap["ft_pct"] = it.ft_pct * 100
                 Log.d("Stats", statsMap.toString())
 
                 statsAdapter.updateStats(statsMap)
+            } else {
+                statsAdapter.noStatsFound(true)
             }
         }
 

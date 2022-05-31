@@ -12,14 +12,22 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.StatsTableRowBinding
 import com.example.myapplication.helpers.StatDisplayNameHelper
 
+@SuppressLint("NotifyDataSetChanged")
 class PlayerStatsRecyclerAdapter(
     private val context: Context,
     private val statsMap: LinkedHashMap<String, Float>
 ) : RecyclerView.Adapter<PlayerStatsRecyclerAdapter.StatViewHolder>() {
 
-    @SuppressLint("NotifyDataSetChanged")
+    private var noStatsFound = false
+
     fun updateStats(newStatsMap: LinkedHashMap<String, Float>) {
         statsMap.putAll(newStatsMap)
+        noStatsFound = false
+        notifyDataSetChanged()
+    }
+
+    fun noStatsFound(found: Boolean) {
+        noStatsFound = found
         notifyDataSetChanged()
     }
 
@@ -38,8 +46,12 @@ class PlayerStatsRecyclerAdapter(
 
         val statDisplayName = StatDisplayNameHelper().getDisplayName(statName)
         holder.binding.statLabel.text = statDisplayName
-        holder.binding.statValue.text =
-            String.format("%.1f", statValue) //TODO mozda ce trebati mijenjati za player match
+        if (noStatsFound) {
+            holder.binding.statValue.text = "?"
+        } else {
+            holder.binding.statValue.text =
+                String.format("%.1f", statValue) //TODO mozda ce trebati mijenjati za player match
+        }
     }
 
     override fun getItemCount(): Int {

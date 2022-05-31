@@ -189,7 +189,11 @@ class SharedViewModel : ViewModel() {
     fun getSeasonAveragesForPlayer(playerId: Int, season: Int?) {
         viewModelScope.launch {
             val response = NetworkRepo().getSeasonAveragesForPlayer(season, arrayOf(playerId))
-            seasonAveragesForPlayer.value = response.data?.get(0)
+            if (!response.data.isNullOrEmpty()) {
+                seasonAveragesForPlayer.value = response.data[0]
+            } else {
+                seasonAveragesForPlayer.value = null
+            }
         }
     }
 
