@@ -10,6 +10,10 @@ class NetworkRepo {
         return Network().getNbaService().getPlayers(page, perPage)
     }
 
+    suspend fun getPlayersByName(page: Int?, perPage: Int?, search: String): PlayerResponse {
+        return Network().getNbaService().getPlayersByName(page, perPage, search)
+    }
+
     suspend fun getTeams(): TeamsResponse {
         return Network().getNbaService().getTeams()
     }

@@ -55,7 +55,7 @@ class PlayerPagingAdapter(
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         val player = getItem(position)
-        var favouriteImage: PlayerImage? = null
+        var favouriteImage: PlayerImage?
 
         runBlocking {
             favouriteImage = NBAAppDatabase.getDatabase(context)?.playersDao()
@@ -84,6 +84,7 @@ class PlayerPagingAdapter(
                     fragment.getPlayerImages(player.id)
                 }
             }
+
             holder.binding.name.text = player.fullName()
             holder.binding.team.text = player.team.abbreviation
 

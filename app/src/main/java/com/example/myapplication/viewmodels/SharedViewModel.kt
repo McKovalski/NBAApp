@@ -16,12 +16,14 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 private const val PLAYER_PAGE_SIZE = 20
+private const val PLAYER_MAX_PAGE_SIZE = 100
 
 class SharedViewModel : ViewModel() {
 
     val allTeams = MutableLiveData<List<Team>>()
     val favouriteTeams = MutableLiveData<List<Team>>()
     val favouritePlayers = MutableLiveData<List<Player>>()
+    val playersByName = MutableLiveData<List<Player>>()
 
     val spinnerSelectedPosition = MutableLiveData<Int>()
     val playerSeasons = MutableLiveData<List<Int>>()
@@ -35,7 +37,11 @@ class SharedViewModel : ViewModel() {
     fun getPlayerPaginatedFlow(context: Context): Flow<PagingData<Player>> {
         val database = NBAAppDatabase.getDatabase(context)!!
         return Pager(
-            config = PagingConfig(PLAYER_PAGE_SIZE, enablePlaceholders = true),
+            config = PagingConfig(
+                PLAYER_PAGE_SIZE,
+                enablePlaceholders = true,
+                initialLoadSize = 5 * PLAYER_PAGE_SIZE
+            ),
             remoteMediator = PlayersRemoteMediator(
                 1,
                 NBAAppDatabase.getDatabase(context)!!,
@@ -44,6 +50,13 @@ class SharedViewModel : ViewModel() {
         ) {
             database.playersDao().pagingSource()
         }.flow.cachedIn(viewModelScope)
+    }
+
+    fun getPlayersByName(search: String) {
+        viewModelScope.launch {
+            val response = NetworkRepo().getPlayersByName(null, PLAYER_MAX_PAGE_SIZE, search)
+            playersByName.value = response.data
+        }
     }
 
     private fun setAllTeams(context: Context) {
