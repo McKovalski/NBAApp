@@ -6,11 +6,15 @@ import retrofit2.Response
 
 class NetworkRepo {
 
-    suspend fun getPlayers(page: Int?, perPage: Int?): PlayerResponse {
+    suspend fun getPlayers(page: Int? = null, perPage: Int? = null): PlayerResponse {
         return Network().getNbaService().getPlayers(page, perPage)
     }
 
-    suspend fun getPlayersByName(page: Int?, perPage: Int?, search: String): PlayerResponse {
+    suspend fun getPlayersByName(
+        page: Int? = null,
+        perPage: Int? = null,
+        search: String
+    ): PlayerResponse {
         return Network().getNbaService().getPlayersByName(page, perPage, search)
     }
 
@@ -19,17 +23,17 @@ class NetworkRepo {
     }
 
     suspend fun getSeasonAveragesForPlayer(
-        season: Int?,
+        season: Int? = null,
         playerIds: Array<Int>
     ): SeasonAveragesResponse {
         return Network().getNbaService().getSeasonAveragesForPlayer(season, playerIds)
     }
 
     suspend fun getStatsForPlayer(
-        page: Int?,
-        perPage: Int?,
+        page: Int? = null,
+        perPage: Int? = null,
         playerIds: Array<Int>,
-        postseason: Boolean?
+        postseason: Boolean? = null
     ): StatsResponse {
         return Network().getNbaService().getStatsForPlayer(page, perPage, playerIds, postseason)
     }

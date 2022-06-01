@@ -9,11 +9,9 @@ import androidx.paging.*
 import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.models.*
 import com.example.myapplication.network.NetworkRepo
-import com.example.myapplication.network.models.PlayerImagesResponse
 import com.example.myapplication.network.paging.PlayersRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 private const val PLAYER_PAGE_SIZE = 20
 private const val PLAYER_MAX_PAGE_SIZE = 100
@@ -54,7 +52,8 @@ class SharedViewModel : ViewModel() {
 
     fun getPlayersByName(search: String) {
         viewModelScope.launch {
-            val response = NetworkRepo().getPlayersByName(null, PLAYER_MAX_PAGE_SIZE, search)
+            val response =
+                NetworkRepo().getPlayersByName(perPage = PLAYER_MAX_PAGE_SIZE, search = search)
             playersByName.value = response.data
         }
     }
@@ -161,10 +160,9 @@ class SharedViewModel : ViewModel() {
         Log.d("Player id", playerId.toString())
         viewModelScope.launch {
             val firstSeasonResponse = NetworkRepo().getStatsForPlayer(
-                null,
-                1,
-                arrayOf(playerId),
-                false
+                perPage = 1,
+                playerIds = arrayOf(playerId),
+                postseason = false
             )
             val firstSeason = firstSeasonResponse.data?.get(0)?.game?.season
             val lastPage = firstSeasonResponse.meta.total_pages
