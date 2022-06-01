@@ -17,6 +17,7 @@ import com.example.myapplication.adapters.FavouritePlayersRecyclerAdapter
 import com.example.myapplication.adapters.FavouriteTeamsRecyclerAdapter
 import com.example.myapplication.databinding.FragmentFavouritesBinding
 import com.example.myapplication.models.Player
+import com.example.myapplication.models.PlayerImage
 import com.example.myapplication.models.Team
 import com.example.myapplication.viewmodels.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -32,8 +33,9 @@ class FavouritesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var isEditing = false
-    var favouritePlayers = mutableListOf<Player>()
-    var favouriteTeams = mutableListOf<Team>()
+    val favouritePlayers = mutableListOf<Player>()
+    val favouriteTeams = mutableListOf<Team>()
+    val favouriteImages = mutableListOf<PlayerImage>()
     private val favouritePlayersAdapter by lazy {
         FavouritePlayersRecyclerAdapter(
             requireContext(),
@@ -87,22 +89,54 @@ class FavouritesFragment : Fragment() {
             }
         }
 
-        return binding.root
-    }
-
-    override fun onResume() {
-        sharedViewModel.getFavouritePlayers(requireContext())
-        sharedViewModel.getFavouriteTeams(requireContext())
-        sharedViewModel.favouritePlayers.observe(viewLifecycleOwner) {
+        // First, get all favourite players from database
+        sharedViewModel.favouritePlayers.observe(viewLifecycleOwner) { playersList ->
             favouritePlayers.clear()
-            favouritePlayers.addAll(it)
+            favouritePlayers.addAll(playersList)
             favouritePlayersAdapter.updateList(favouritePlayers)
+        }
+        // Then, get all favourite images from database
+        sharedViewModel.allFavouriteImages.observe(viewLifecycleOwner) { playerImages ->
+            favouriteImages.clear()
+            favouriteImages.addAll(playerImages)
+            favouritePlayersAdapter.updateFavouriteImages(favouriteImages)
+            // If there are no favourite images, get the images from the API
+            // and set the first image for each player as the favourite image
+            if (favouriteImages.isEmpty()) {
+                for (player in favouritePlayers) {
+                    sharedViewModel.getPlayerImages(player.id)
+                }
+            } else { // If there are some favourite images, check which player has a favourite image
+                val idList = favouriteImages.map { image -> image.playerId }
+                for (player in favouritePlayers) {
+                    // If a player doesn't have a favourite image, get his images from the API
+                    if (player.id !in idList) {
+                        Log.d("player for image search", player.fullName())
+                        sharedViewModel.getPlayerImages(player.id)
+                    }
+                }
+            }
         }
         sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
             favouriteTeams.clear()
             favouriteTeams.addAll(it)
             favouriteTeamsAdapter.updateList(favouriteTeams)
         }
+        sharedViewModel.playerImages.observe(viewLifecycleOwner) {
+            Log.d("images", it.toString())
+            // If a player doesn't have a favourite image, set his first image as favourite
+            if (it.isNotEmpty() && it[0].playerId !in favouriteImages.map { image -> image.playerId }) {
+                sharedViewModel.setPlayerFavouriteImage(requireContext(), it[0])
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        sharedViewModel.getFavouritePlayers(requireContext())
+        sharedViewModel.getFavouriteTeams(requireContext())
+        sharedViewModel.getAllFavouriteImages(requireContext())
         super.onResume()
     }
 

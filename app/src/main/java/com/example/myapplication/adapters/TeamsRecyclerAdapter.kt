@@ -21,6 +21,7 @@ private const val EXTRA_TEAM = "team"
 private const val EXTRA_TEAMS_IN_DIVISION = "teamsInDivision"
 private const val EXTRA_IS_FAVOURITE: String = "isFavourite"
 
+@SuppressLint("NotifyDataSetChanged")
 class TeamsRecyclerAdapter(
     private val context: Context,
     private val teamsList: MutableList<Team>,
@@ -28,10 +29,15 @@ class TeamsRecyclerAdapter(
     private val fragment: ExploreFragment
 ) : RecyclerView.Adapter<TeamsRecyclerAdapter.TeamViewHolder>() {
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateFavourites(newFavourites: MutableList<Team>) {
         favouriteTeams.clear()
         favouriteTeams.addAll(newFavourites)
+        notifyDataSetChanged()
+    }
+
+    fun updateTeams(newTeams: MutableList<Team>) {
+        teamsList.clear()
+        teamsList.addAll(newTeams)
         notifyDataSetChanged()
     }
 

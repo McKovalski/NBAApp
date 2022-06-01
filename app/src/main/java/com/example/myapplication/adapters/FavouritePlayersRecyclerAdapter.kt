@@ -7,11 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.myapplication.R
 import com.example.myapplication.activities.PlayerDetailsActivity
 import com.example.myapplication.databinding.FavouritePlayerViewBinding
 import com.example.myapplication.fragments.FavouritesFragment
 import com.example.myapplication.models.Player
+import com.example.myapplication.models.PlayerImage
+import com.example.myapplication.network.NetworkRepo
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 private const val EXTRA_PLAYER = "player"
@@ -25,6 +30,7 @@ class FavouritePlayersRecyclerAdapter(
 ) : RecyclerView.Adapter<FavouritePlayersRecyclerAdapter.PlayerViewHolder>() {
 
     private var showReorder: Boolean = false
+    private val favouriteImages = mutableListOf<PlayerImage>()
 
     fun switchReorder() {
         showReorder = !showReorder
@@ -34,6 +40,12 @@ class FavouritePlayersRecyclerAdapter(
     fun updateList(newFavourites: MutableList<Player>) {
         favouritePlayers.clear()
         favouritePlayers.addAll(newFavourites)
+        notifyDataSetChanged()
+    }
+
+    fun updateFavouriteImages(newImages: MutableList<PlayerImage>) {
+        favouriteImages.clear()
+        favouriteImages.addAll(newImages)
         notifyDataSetChanged()
     }
 
@@ -51,13 +63,21 @@ class FavouritePlayersRecyclerAdapter(
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         val player = favouritePlayers[position]
 
-        // TODO dodaj dohvacanje slika, zasad su samo placeholderi
-        val imageResource = when (position) {
-            1 -> R.drawable.ic_player_1_small
-            2 -> R.drawable.ic_player_2_small
-            else -> R.drawable.ic_player_3_small
+        if (favouriteImages.isNotEmpty() && player.id in favouriteImages.map { i -> i.playerId }) {
+            for (image in favouriteImages) {
+                if (image.playerId == player.id) {
+                    holder.binding.card.icon.load(image.imageUrl)
+                    break
+                }
+            }
+        } else {
+            val imageResource = when (position) {
+                1 -> R.drawable.ic_player_1_small
+                2 -> R.drawable.ic_player_2_small
+                else -> R.drawable.ic_player_3_small
+            }
+            holder.binding.card.icon.load(imageResource)
         }
-        holder.binding.card.icon.setBackgroundResource(imageResource)
         holder.binding.card.name.text = player.fullName()
         holder.binding.card.team.text = player.team.abbreviation
 

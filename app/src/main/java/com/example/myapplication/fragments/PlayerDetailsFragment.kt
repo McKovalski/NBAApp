@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,8 @@ class PlayerDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var player: Player
+    private val images = mutableListOf<PlayerImage>()
+    private var favouriteImage: PlayerImage? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,11 +43,31 @@ class PlayerDetailsFragment : Fragment() {
 
         player = (activity as PlayerDetailsActivity).player
 
+        val imagePagerAdapter = ImagePagerAdapter(requireContext(), mutableListOf())
+        binding.playerDetailsCard.viewPager.adapter = imagePagerAdapter
+        binding.playerDetailsCard.circleIndicator.setViewPager(binding.playerDetailsCard.viewPager)
+
         sharedViewModel.getPlayerImages(player.id)
+        sharedViewModel.getPlayerFavouriteImage(requireContext(), player.id)
         sharedViewModel.playerImages.observe(viewLifecycleOwner) {
-            val images = mutableListOf<PlayerImage>()
-            images.addAll(it)
-            val imagePagerAdapter = ImagePagerAdapter(requireContext(), images)
+            images.addAll(it.filter { image -> image.playerId == player.id && !images.contains(image) })
+            sharedViewModel.playerFavouriteImage.observe(viewLifecycleOwner) { favImage ->
+                if (favImage != null) {
+                    favouriteImage = favImage
+                } else {
+                    if (images.isNotEmpty()) {
+                        favouriteImage = images[0]
+                        sharedViewModel.setPlayerFavouriteImage(requireContext(), favouriteImage!!)
+                    }
+                }
+            }
+            val favouriteImagePosition = images.indexOf(favouriteImage)
+            imagePagerAdapter.updateImages(images)
+            if (favouriteImagePosition >= 0) {
+                binding.playerDetailsCard.viewPager.currentItem = favouriteImagePosition
+            } else {
+                binding.playerDetailsCard.viewPager.currentItem = 0
+            }
             binding.playerDetailsCard.viewPager.adapter = imagePagerAdapter
             binding.playerDetailsCard.circleIndicator.setViewPager(binding.playerDetailsCard.viewPager)
         }

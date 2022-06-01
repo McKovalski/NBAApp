@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myapplication.models.FavouritePlayer
 import com.example.myapplication.models.Player
+import com.example.myapplication.models.PlayerImage
 
 @Dao
 interface PlayersDao {
@@ -37,4 +38,13 @@ interface PlayersDao {
 
     @Query("SELECT MAX(dbOrderPosition) FROM FavouritePlayer")
     suspend fun getLastFavouritePlayerPosition(): Int?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPlayerFavouriteImage(image: PlayerImage)
+
+    @Query("SELECT * FROM PlayerImage WHERE playerId = :id")
+    suspend fun getPlayerFavouriteImage(id: Int): PlayerImage?
+
+    @Query("SELECT * FROM PlayerImage")
+    suspend fun getAllFavouriteImages(): List<PlayerImage>?
 }

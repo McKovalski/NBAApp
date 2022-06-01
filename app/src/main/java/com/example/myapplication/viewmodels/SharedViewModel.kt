@@ -29,7 +29,9 @@ class SharedViewModel : ViewModel() {
     val playerSeasons = MutableLiveData<List<Int>>()
     val seasonAveragesForPlayer = MutableLiveData<SeasonAverages?>()
 
-    val playerImages = MutableLiveData<List<PlayerImage>>()
+    val playerImages = MutableLiveData<MutableList<PlayerImage>>()
+    val playerFavouriteImage = MutableLiveData<PlayerImage>()
+    val allFavouriteImages = MutableLiveData<List<PlayerImage>>()
 
     @ExperimentalPagingApi
     fun getPlayerPaginatedFlow(context: Context): Flow<PagingData<Player>> {
@@ -200,10 +202,10 @@ class SharedViewModel : ViewModel() {
     fun getPlayerImages(playerId: Int) {
         viewModelScope.launch {
             val response = NetworkRepo().getPlayerImages(playerId)
+            val currentImages = playerImages.value ?: mutableListOf()
             if (response.isSuccessful) {
-                playerImages.value = response.body()?.data!!
-            } else {
-                playerImages.value = listOf()
+                currentImages.addAll(response.body()?.data!!)
+                playerImages.value = currentImages
             }
         }
     }
@@ -213,6 +215,28 @@ class SharedViewModel : ViewModel() {
             val image = PlayerImagePost(playerId, imageUrl, imageCaption)
             NetworkRepo().postPlayerImage(image)
             getPlayerImages(playerId)
+        }
+    }
+
+    fun getPlayerFavouriteImage(context: Context, id: Int) {
+        viewModelScope.launch {
+            playerFavouriteImage.value =
+                NBAAppDatabase.getDatabase(context)?.playersDao()?.getPlayerFavouriteImage(id)
+        }
+    }
+
+    fun setPlayerFavouriteImage(context: Context, image: PlayerImage) {
+        viewModelScope.launch {
+            NBAAppDatabase.getDatabase(context)?.playersDao()?.insertPlayerFavouriteImage(image)
+            getAllFavouriteImages(context)
+        }
+    }
+
+    fun getAllFavouriteImages(context: Context) {
+        viewModelScope.launch {
+            allFavouriteImages.value =
+                NBAAppDatabase.getDatabase(context)?.playersDao()?.getAllFavouriteImages()
+                    ?: listOf()
         }
     }
 }

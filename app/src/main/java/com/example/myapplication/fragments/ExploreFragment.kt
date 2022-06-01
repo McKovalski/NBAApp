@@ -16,10 +16,7 @@ import com.example.myapplication.adapters.PlayerDiffCallback
 import com.example.myapplication.adapters.PlayerPagingAdapter
 import com.example.myapplication.adapters.TeamsRecyclerAdapter
 import com.example.myapplication.databinding.FragmentExploreBinding
-import com.example.myapplication.models.FavouritePlayer
-import com.example.myapplication.models.FavouriteTeam
-import com.example.myapplication.models.Player
-import com.example.myapplication.models.Team
+import com.example.myapplication.models.*
 import com.example.myapplication.viewmodels.SharedViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,6 +30,26 @@ class ExploreFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val playerPagingAdapter by lazy {
+        PlayerPagingAdapter(
+            requireContext(),
+            mutableListOf(),
+            this,
+            PlayerDiffCallback
+        )
+    }
+    private val teamsRecyclerAdapter by lazy {
+        TeamsRecyclerAdapter(
+            requireContext(),
+            mutableListOf(),
+            mutableListOf(),
+            this
+        )
+    }
+    private val allTeams = mutableListOf<Team>()
+    private val allImages = mutableListOf<PlayerImage>()
+
+    @ExperimentalPagingApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +59,37 @@ class ExploreFragment : Fragment() {
         setupSpinner()
         setPlayersVisibility(true)
 
+        binding.teamsRecyclerView.adapter = teamsRecyclerAdapter
+        binding.teamsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.playersRecyclerView.adapter = playerPagingAdapter
+        binding.playersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        lifecycleScope.launch {
+            sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
+                playerPagingAdapter.submitData(it)
+            }
+        }
+        sharedViewModel.favouritePlayers.observe(viewLifecycleOwner) {
+            val favourites = mutableListOf<Player>()
+            favourites.addAll(it)
+            playerPagingAdapter.updateFavourites(favourites)
+        }
+        sharedViewModel.allTeams.observe(viewLifecycleOwner) {
+            allTeams.clear()
+            allTeams.addAll(it)
+            teamsRecyclerAdapter.updateTeams(allTeams)
+        }
+        sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
+            val favourites = mutableListOf<Team>()
+            favourites.addAll(it)
+            teamsRecyclerAdapter.updateFavourites(favourites)
+        }
+        sharedViewModel.playerImages.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                allImages.addAll(it)
+                playerPagingAdapter.updateImages(allImages)
+            }
+        }
+
         return binding.root
     }
 
@@ -49,45 +97,9 @@ class ExploreFragment : Fragment() {
     override fun onResume() {
         binding.spinner.setSelection(sharedViewModel.spinnerSelectedPosition.value ?: 0)
 
-        val playerPagingAdapter = PlayerPagingAdapter(
-            requireContext(),
-            mutableListOf(),
-            this,
-            PlayerDiffCallback
-        )
-        binding.playersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.playersRecyclerView.adapter = playerPagingAdapter
-        lifecycleScope.launch {
-            sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
-                playerPagingAdapter.submitData(it)
-            }
-        }
         sharedViewModel.getFavouritePlayers(requireContext())
-        sharedViewModel.favouritePlayers.observe(viewLifecycleOwner) {
-            val favourites = mutableListOf<Player>()
-            favourites.addAll(it)
-            playerPagingAdapter.updateFavourites(favourites)
-        }
-
-        val allTeams = mutableListOf<Team>()
         sharedViewModel.getAllTeams(requireContext())
-        sharedViewModel.allTeams.observe(viewLifecycleOwner) {
-            allTeams.addAll(it)
-        }
-        val teamsRecyclerAdapter = TeamsRecyclerAdapter(
-            requireContext(),
-            allTeams,
-            mutableListOf(),
-            this
-        )
-        binding.teamsRecyclerView.adapter = teamsRecyclerAdapter
-        binding.teamsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         sharedViewModel.getFavouriteTeams(requireContext())
-        sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
-            val favourites = mutableListOf<Team>()
-            favourites.addAll(it)
-            teamsRecyclerAdapter.updateFavourites(favourites)
-        }
         super.onResume()
     }
 
@@ -111,7 +123,6 @@ class ExploreFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 // ne treba
             }
-
         }
     }
 
@@ -151,5 +162,13 @@ class ExploreFragment : Fragment() {
     fun getLastFavouritePlayerPosition(): Int {
         sharedViewModel.getLastFavouritePlayerPosition(requireContext())
         return sharedViewModel.lastFavouritePlayerPosition.value ?: 0
+    }
+
+    fun getPlayerImages(playerId: Int) {
+        sharedViewModel.getPlayerImages(playerId)
+    }
+
+    fun setPlayerFavouriteImage(image: PlayerImage) {
+        sharedViewModel.setPlayerFavouriteImage(requireContext(), image)
     }
 }

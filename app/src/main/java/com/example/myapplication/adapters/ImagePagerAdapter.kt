@@ -1,6 +1,7 @@
 package com.example.myapplication.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,16 @@ import com.example.myapplication.databinding.PlayerImageItemBinding
 import com.example.myapplication.models.PlayerImage
 
 class ImagePagerAdapter(
-    val context: Context,
-    val images: MutableList<PlayerImage>
+    private val context: Context,
+    private val images: MutableList<PlayerImage>
 ) : PagerAdapter() {
+
+    fun updateImages(newImages: MutableList<PlayerImage>) {
+        images.clear()
+        images.addAll(newImages)
+        notifyDataSetChanged()
+    }
+
     override fun getCount(): Int {
         return if (images.isNotEmpty()) images.size else 1
     }
@@ -27,6 +35,8 @@ class ImagePagerAdapter(
         val view =
             LayoutInflater.from(context).inflate(R.layout.player_image_item, null, false)
         val binding = PlayerImageItemBinding.bind(view)
+
+        Log.d("images u pageru", images.toString())
 
         if (images.isNotEmpty()) {
             binding.image.load(images[position].imageUrl)

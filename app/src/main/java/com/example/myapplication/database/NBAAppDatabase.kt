@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.myapplication.models.*
 
 @Database(
-    entities = [Player::class, FavouritePlayer::class, Team::class, PlayerRemoteKey::class, FavouriteTeam::class],
+    entities = [Player::class, FavouritePlayer::class, Team::class, PlayerRemoteKey::class, FavouriteTeam::class, PlayerImage::class],
     version = 1,
     exportSchema = false
 )
