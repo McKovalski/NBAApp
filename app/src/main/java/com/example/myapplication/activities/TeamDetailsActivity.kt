@@ -8,11 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.example.myapplication.R
 import com.example.myapplication.adapters.TeamDetailsPagerAdapter
+import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.databinding.ActivityTeamDetailsBinding
 import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.Team
 import com.example.myapplication.viewmodels.SharedViewModel
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.runBlocking
 
 private const val EXTRA_TEAM = "team"
 private const val EXTRA_TEAMS_IN_DIVISION = "teamsInDivision"
@@ -42,9 +44,13 @@ class TeamDetailsActivity : AppCompatActivity() {
             if (binding.iconFavourite.isSelected) {
                 sharedViewModel.removeFavouriteTeam(this, team.id)
             } else {
-                sharedViewModel.getLastFavouriteTeamPosition(this)
-                val newPosition = (sharedViewModel.lastFavouriteTeamPosition.value ?: 0).plus(1)
-                sharedViewModel.addFavouriteTeam(this, team.toFavouriteTeam(newPosition))
+                val lastPosition: Int
+                val context = this
+                runBlocking {
+                    lastPosition = NBAAppDatabase.getDatabase(context)?.teamsDao()
+                        ?.getLastFavouriteTeamPosition() ?: 0
+                }
+                sharedViewModel.addFavouriteTeam(this, team.toFavouriteTeam(lastPosition + 1))
             }
             binding.iconFavourite.apply { isSelected = !isSelected }
         }

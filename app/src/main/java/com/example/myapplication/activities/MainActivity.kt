@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedViewModel.getLastFavouriteTeamPosition(this)
-
         // TODO stavi na login fragment ako je prvi put upaljen app (ili nesto slicno)...
         setCurrentFragment(ExploreFragment())
 

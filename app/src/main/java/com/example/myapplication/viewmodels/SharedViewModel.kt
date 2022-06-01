@@ -21,9 +21,7 @@ class SharedViewModel : ViewModel() {
 
     val allTeams = MutableLiveData<List<Team>>()
     val favouriteTeams = MutableLiveData<List<Team>>()
-    val lastFavouriteTeamPosition = MutableLiveData<Int>()
     val favouritePlayers = MutableLiveData<List<Player>>()
-    val lastFavouritePlayerPosition = MutableLiveData<Int>()
 
     val spinnerSelectedPosition = MutableLiveData<Int>()
     val playerSeasons = MutableLiveData<List<Int>>()
@@ -106,13 +104,6 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun getLastFavouriteTeamPosition(context: Context) {
-        viewModelScope.launch {
-            lastFavouriteTeamPosition.value =
-                NBAAppDatabase.getDatabase(context)?.teamsDao()?.getLastFavouriteTeamPosition() ?: 0
-        }
-    }
-
     fun getFavouritePlayers(context: Context) {
         viewModelScope.launch {
             val players =
@@ -150,14 +141,6 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             NBAAppDatabase.getDatabase(context)?.playersDao()?.deleteAllFavouritePlayers()
             getFavouritePlayers(context)
-        }
-    }
-
-    fun getLastFavouritePlayerPosition(context: Context) {
-        viewModelScope.launch {
-            lastFavouritePlayerPosition.value =
-                NBAAppDatabase.getDatabase(context)?.playersDao()?.getLastFavouritePlayerPosition()
-                    ?: 0
         }
     }
 

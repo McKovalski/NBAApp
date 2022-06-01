@@ -11,10 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.activities.TeamDetailsActivity
+import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.databinding.TeamItemViewBinding
 import com.example.myapplication.fragments.ExploreFragment
 import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.Team
+import kotlinx.coroutines.runBlocking
 import java.io.Serializable
 
 private const val EXTRA_TEAM = "team"
@@ -70,8 +72,12 @@ class TeamsRecyclerAdapter(
                 fragment.removeFavouriteTeam(team.id)
             } else {
                 favouriteTeams.add(team)
-                val newPosition = fragment.getLastFavouriteTeamPosition() + 1
-                fragment.addFavouriteTeam(team.toFavouriteTeam(newPosition))
+                val lastPosition: Int
+                runBlocking {
+                    lastPosition = NBAAppDatabase.getDatabase(context)?.teamsDao()
+                        ?.getLastFavouriteTeamPosition() ?: 0
+                }
+                fragment.addFavouriteTeam(team.toFavouriteTeam(lastPosition + 1))
             }
             holder.binding.iconFavourite.apply { isSelected = !isSelected }
         }

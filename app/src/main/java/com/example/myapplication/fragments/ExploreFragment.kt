@@ -146,22 +146,12 @@ class ExploreFragment : Fragment() {
         sharedViewModel.removeFavouriteTeam(requireContext(), teamId)
     }
 
-    fun getLastFavouriteTeamPosition(): Int {
-        sharedViewModel.getLastFavouriteTeamPosition(requireContext())
-        return sharedViewModel.lastFavouriteTeamPosition.value ?: 0
-    }
-
     fun addFavouritePlayer(favouritePlayer: FavouritePlayer) {
         sharedViewModel.addFavouritePlayer(requireContext(), favouritePlayer)
     }
 
     fun removeFavouritePlayer(id: Int) {
         sharedViewModel.removeFavouritePlayer(requireContext(), id)
-    }
-
-    fun getLastFavouritePlayerPosition(): Int {
-        sharedViewModel.getLastFavouritePlayerPosition(requireContext())
-        return sharedViewModel.lastFavouritePlayerPosition.value ?: 0
     }
 
     fun getPlayerImages(playerId: Int) {

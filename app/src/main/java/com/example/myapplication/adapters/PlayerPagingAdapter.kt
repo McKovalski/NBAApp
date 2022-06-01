@@ -94,8 +94,12 @@ class PlayerPagingAdapter(
                     fragment.removeFavouritePlayer(player.id)
                 } else {
                     favouritePlayers.add(player)
-                    val newPosition = fragment.getLastFavouritePlayerPosition() + 1
-                    fragment.addFavouritePlayer(player.toFavouritePlayer(newPosition))
+                    val lastPosition: Int
+                    runBlocking {
+                        lastPosition = NBAAppDatabase.getDatabase(context)?.playersDao()
+                            ?.getLastFavouritePlayerPosition() ?: 0
+                    }
+                    fragment.addFavouritePlayer(player.toFavouritePlayer(lastPosition + 1))
                 }
                 holder.binding.iconFavourite.apply { isSelected = !isSelected }
             }
