@@ -137,7 +137,7 @@ class MatchDetailsFragment : Fragment() {
             binding.matchDetailStats.rebStatCell.apply {
                 val a = homeStatsMap["reb"]!!
                 val b = awayStatsMap["reb"]!!
-                statType.text = getString(R.string.oreb)
+                statType.text = getString(R.string.reb)
                 firstTeamBar.progressTintList =
                     ContextCompat.getColorStateList(requireContext(), homeColorTransparent)
                 secondTeamBar.progressTintList =
@@ -150,7 +150,7 @@ class MatchDetailsFragment : Fragment() {
             binding.matchDetailStats.astStatCell.apply {
                 val a = homeStatsMap["ast"]!!
                 val b = awayStatsMap["ast"]!!
-                statType.text = getString(R.string.oreb)
+                statType.text = getString(R.string.ast)
                 firstTeamBar.progressTintList =
                     ContextCompat.getColorStateList(requireContext(), homeColorTransparent)
                 secondTeamBar.progressTintList =
@@ -163,7 +163,7 @@ class MatchDetailsFragment : Fragment() {
             binding.matchDetailStats.tovStatCell.apply {
                 val a = homeStatsMap["tov"]!!
                 val b = awayStatsMap["tov"]!!
-                statType.text = getString(R.string.oreb)
+                statType.text = getString(R.string.tov)
                 firstTeamBar.progressTintList =
                     ContextCompat.getColorStateList(requireContext(), homeColorTransparent)
                 secondTeamBar.progressTintList =

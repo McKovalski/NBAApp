@@ -8,62 +8,69 @@
     android:fillViewport="true"
     tools:context=".fragments.MatchTopPlayersFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/stats_points"
+            layout="@layout/stats_top3_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp" />
 
         <include
             android:id="@+id/stats_field_goals"
             layout="@layout/stats_top3_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp" />
 
         <include
             android:id="@+id/stats_3_pointers"
             layout="@layout/stats_top3_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@id/stats_field_goals" />
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp" />
 
         <include
             android:id="@+id/stats_off_rebounds"
             layout="@layout/stats_top3_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@id/stats_3_pointers" />
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp" />
 
         <include
             android:id="@+id/stats_rebounds"
             layout="@layout/stats_top3_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@id/stats_off_rebounds" />
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp" />
 
         <include
             android:id="@+id/stats_assists"
             layout="@layout/stats_top3_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@id/stats_rebounds" />
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp" />
 
         <include
             android:id="@+id/stats_turnovers"
             layout="@layout/stats_top3_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginHorizontal="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stats_assists" />
+            android:layout_marginBottom="24dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>

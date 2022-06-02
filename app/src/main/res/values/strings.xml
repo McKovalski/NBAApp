@@ -78,4 +78,11 @@
     <string name="ast">AST</string>
     <string name="tov">TOV</string>
     <string name="oreb">OREB</string>
+    <string name="points">Points</string>
+    <string name="field_goals_made">Field Goals Made</string>
+    <string name="field_goal_3_pts_made">Field Goal 3-pointers Made</string>
+    <string name="offensive_rebounds">Offensive Rebounds</string>
+    <string name="rebounds">Rebounds</string>
+    <string name="assists">Assists</string>
+    <string name="turnovers">Turnovers</string>
 </resources>
