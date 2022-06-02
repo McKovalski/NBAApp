@@ -48,7 +48,8 @@
             style="@style/DisplayLargeNLv1Center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="-" />
+            android:text="-"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/second_team_score"

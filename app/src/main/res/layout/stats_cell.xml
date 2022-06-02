@@ -25,17 +25,18 @@
         android:layout_marginTop="4dp"
         android:progress="50"
         android:progressBackgroundTint="@color/surface_surface_0"
-        android:progressTint="@color/team_hawks_primary"
+        android:progressTint="@color/team_hawks_primary_alpha_0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stat_type" />
 
     <TextView
         android:id="@+id/first_team_value"
-        style="@style/HeadlineMediumNLv1Center"
+        style="@style/BodyLargeNLv1Center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/first_team_bar"
         app:layout_constraintStart_toStartOf="@id/first_team_bar"
@@ -52,18 +53,19 @@
         android:layout_marginEnd="16dp"
         android:progress="50"
         android:progressBackgroundTint="@color/surface_surface_0"
-        android:progressTint="@color/team_celtics_primary"
+        android:progressTint="@color/team_celtics_primary_alpha_0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/first_team_bar"
         app:layout_constraintTop_toBottomOf="@id/stat_type" />
 
     <TextView
         android:id="@+id/second_team_value"
-        style="@style/HeadlineMediumNLv1Center"
+        style="@style/BodyLargeNLv1Center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/second_team_bar"
         app:layout_constraintStart_toStartOf="@id/second_team_bar"

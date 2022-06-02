@@ -38,6 +38,15 @@ class NetworkRepo {
         return Network().getNbaService().getStatsForPlayer(page, perPage, playerIds, postseason)
     }
 
+    suspend fun getStatsForGame(
+        page: Int? = null,
+        perPage: Int? = null,
+        gameIds: Array<Int>,
+        postseason: Boolean? = null
+    ): StatsResponse {
+        return Network().getNbaService().getStatsForGame(page, perPage, gameIds, postseason)
+    }
+
     suspend fun getPlayerImages(playerId: Int): Response<PlayerImagesResponse> {
         return Network().getSofaScoreService().getPlayerImages(playerId)
     }

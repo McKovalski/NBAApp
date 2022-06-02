@@ -72,4 +72,10 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="filter_matches">Filter Matches</string>
     <string name="apply">Apply</string>
+    <string name="fg_pct">FG%</string>
+    <string name="fg3_pct">FG3%</string>
+    <string name="reb">REB</string>
+    <string name="ast">AST</string>
+    <string name="tov">TOV</string>
+    <string name="oreb">OREB</string>
 </resources>

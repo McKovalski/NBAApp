@@ -35,6 +35,8 @@ class SharedViewModel : ViewModel() {
     val playerFavouriteImage = MutableLiveData<PlayerImage>()
     val allFavouriteImages = MutableLiveData<List<PlayerImage>>()
 
+    val statsForGame = MutableLiveData<List<Stats>>()
+
     @ExperimentalPagingApi
     fun getPlayerPaginatedFlow(context: Context): Flow<PagingData<Player>> {
         val database = NBAAppDatabase.getDatabase(context)!!
@@ -245,6 +247,18 @@ class SharedViewModel : ViewModel() {
             allFavouriteImages.value =
                 NBAAppDatabase.getDatabase(context)?.playersDao()?.getAllFavouriteImages()
                     ?: listOf()
+        }
+    }
+
+    fun getStatsForGame(match: Match) {
+        viewModelScope.launch {
+            val gameIds = arrayOf(match.id)
+            val response = NetworkRepo().getStatsForGame(
+                perPage = PLAYER_MAX_PAGE_SIZE,
+                gameIds = gameIds,
+                postseason = match.postseason
+            )
+            statsForGame.value = response.data ?: listOf()
         }
     }
 }

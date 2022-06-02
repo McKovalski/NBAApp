@@ -40,6 +40,42 @@ class TeamsHelper() {
         }
     }
 
+    fun getTransparentColor(teamName: String?): Int {
+        return when (teamName) {
+            "76ers" -> R.color.team_76_ers_primary_alpha_0_5
+            "Bucks" -> R.color.team_bucks_primary_alpha_0_5
+            "Bulls" -> R.color.team_bulls_primary_alpha_0_5
+            "Cavaliers" -> R.color.team_cavaliers_primary_alpha_0_5
+            "Celtics" -> R.color.team_celtics_primary_alpha_0_5
+            "Clippers" -> R.color.team_clippers_primary_alpha_0_5
+            "Grizzlies" -> R.color.team_grizzlies_primary_alpha_0_5
+            "Hawks" -> R.color.team_hawks_primary_alpha_0_5
+            "Heat" -> R.color.team_heat_primary_alpha_0_5
+            "Hornets" -> R.color.team_hornets_primary_alpha_0_5
+            "Jazz" -> R.color.team_jazz_primary_alpha_0_5
+            "Kings" -> R.color.team_kings_primary_alpha_0_5
+            "Knicks" -> R.color.team_knicks_primary_alpha_0_5
+            "Lakers" -> R.color.team_lakers_primary_alpha_0_5
+            "Magic" -> R.color.team_magic_primary_alpha_0_5
+            "Mavericks" -> R.color.team_mavericks_primary_alpha_0_5
+            "Nets" -> R.color.team_nets_primary_alpha_0_5
+            "Nuggets" -> R.color.team_nuggets_primary_alpha_0_5
+            "Pacers" -> R.color.team_pacers_primary_alpha_0_5
+            "Pelicans" -> R.color.team_pelicans_primary_alpha_0_5
+            "Pistons" -> R.color.team_pistons_primary_alpha_0_5
+            "Raptors" -> R.color.team_raptors_primary_alpha_0_5
+            "Rockets" -> R.color.team_rockets_primary_alpha_0_5
+            "Spurs" -> R.color.team_spurs_primary_alpha_0_5
+            "Suns" -> R.color.team_suns_primary_alpha_0_5
+            "Thunder" -> R.color.team_thunder_primary_alpha_0_5
+            "Timberwolves" -> R.color.team_timberwolves_primary_alpha_0_5
+            "Trail Blazers" -> R.color.team_blazers_primary_alpha_0_5
+            "Warriors" -> R.color.team_warriors_primary_alpha_0_5
+            "Wizards" -> R.color.team_wizards_primary_alpha_0_5
+            else -> -1
+        }
+    }
+
     fun getDivisionName(division: String): Int {
         return when (division) {
             "Atlantic" -> R.string.atlantic

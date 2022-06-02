@@ -36,6 +36,14 @@ interface NBAService {
         @Query("postseason") postseason: Boolean?
     ): StatsResponse
 
+    @GET("stats")
+    suspend fun getStatsForGame(
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+        @Query("game_ids[]") gameIds: Array<Int>,
+        @Query("postseason") postseason: Boolean?
+    ): StatsResponse
+
     @GET("games")
     suspend fun getMatches(
         @Query("page") page: Int?,

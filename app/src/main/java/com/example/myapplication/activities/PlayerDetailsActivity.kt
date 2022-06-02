@@ -1,13 +1,10 @@
 package com.example.myapplication.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.example.myapplication.R
 import com.example.myapplication.adapters.PlayerDetailsPagerAdapter
-import com.example.myapplication.adapters.TeamDetailsPagerAdapter
 import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.databinding.ActivityPlayerDetailsBinding
 import com.example.myapplication.models.Player
