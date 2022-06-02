@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.myapplication.database.NBAAppDatabase
+import com.example.myapplication.helpers.Constants
 import com.example.myapplication.models.*
 import com.example.myapplication.network.Network
 import com.example.myapplication.network.NetworkRepo
@@ -53,9 +54,13 @@ class SharedViewModel : ViewModel() {
         }.flow.cachedIn(viewModelScope)
     }
 
-    fun getAllMatchesFlow(postseason: Boolean): Flow<PagingData<Match>> {
+    fun getAllMatchesFlow(
+        postseason: Boolean,
+        teamIds: Array<Int>? = null,
+        seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON)
+    ): Flow<PagingData<Match>> {
         return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
-            MatchPagingSource(Network().getNbaService(), isPostseason = postseason)
+            MatchPagingSource(Network().getNbaService(), postseason, teamIds, seasons)
         }.flow.cachedIn(viewModelScope)
     }
 

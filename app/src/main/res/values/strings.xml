@@ -70,4 +70,6 @@
     <string name="add">Add</string>
     <string name="caption_cannot_be_blank">Caption cannot be blank</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="filter_matches">Filter Matches</string>
+    <string name="apply">Apply</string>
 </resources>

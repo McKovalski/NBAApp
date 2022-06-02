@@ -2,18 +2,18 @@ package com.example.myapplication.network.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.myapplication.helpers.Constants
 import com.example.myapplication.models.Match
 import com.example.myapplication.network.NetworkRepo
 import com.example.myapplication.network.services.NBAService
 import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 
-private const val INITIAL_PAGE = 1
-
 class MatchPagingSource(
     private val service: NBAService,
     private val isPostseason: Boolean? = null,
-    private val teamIds: Array<Int>? = null
+    private val teamIds: Array<Int>? = null,
+    private val seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON)
 ) : PagingSource<Int, Match>() {
 
     private var lastPage = -1
@@ -31,8 +31,9 @@ class MatchPagingSource(
                 lastPage = service.getMatches(
                     page = 1,
                     perPage = params.loadSize,
-                    isPostseason,
-                    teamIds
+                    postseason = isPostseason,
+                    teamIds = teamIds,
+                    seasons = seasons
                 ).meta.total_pages
             }
         }
@@ -41,13 +42,14 @@ class MatchPagingSource(
             val response = service.getMatches(
                 page = nextPage,
                 perPage = params.loadSize,
-                isPostseason,
-                teamIds
+                postseason = isPostseason,
+                teamIds = teamIds,
+                seasons = seasons
             )
             LoadResult.Page(
                 data = response.data,
                 prevKey = null,
-                nextKey = response.meta.current_page - 1
+                nextKey = if (response.meta.current_page - 1 > 0) response.meta.current_page - 1 else null
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

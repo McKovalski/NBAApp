@@ -41,6 +41,7 @@ interface NBAService {
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
         @Query("postseason") postseason: Boolean?,
-        @Query("team_ids[]") teamIds: Array<Int>?
+        @Query("team_ids[]") teamIds: Array<Int>?,
+        @Query("seasons[]") seasons: Array<Int>?,
     ): MatchesResponse
 }
