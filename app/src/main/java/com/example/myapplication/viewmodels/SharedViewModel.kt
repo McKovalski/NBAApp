@@ -8,13 +8,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.myapplication.database.NBAAppDatabase
 import com.example.myapplication.models.*
+import com.example.myapplication.network.Network
 import com.example.myapplication.network.NetworkRepo
+import com.example.myapplication.network.paging.MatchPagingSource
 import com.example.myapplication.network.paging.PlayersRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 private const val PLAYER_PAGE_SIZE = 20
 private const val PLAYER_MAX_PAGE_SIZE = 100
+private const val MATCH_PAGE_SIZE = 100
 
 class SharedViewModel : ViewModel() {
 
@@ -47,6 +50,12 @@ class SharedViewModel : ViewModel() {
             )
         ) {
             database.playersDao().pagingSource()
+        }.flow.cachedIn(viewModelScope)
+    }
+
+    fun getAllMatchesFlow(postseason: Boolean): Flow<PagingData<Match>> {
+        return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
+            MatchPagingSource(Network().getNbaService(), isPostseason = postseason)
         }.flow.cachedIn(viewModelScope)
     }
 

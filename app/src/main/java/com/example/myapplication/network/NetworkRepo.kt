@@ -45,4 +45,13 @@ class NetworkRepo {
     suspend fun postPlayerImage(image: PlayerImagePost): Response<Unit> {
         return Network().getSofaScoreService().postPlayerImage(image)
     }
+
+    suspend fun getMatches(
+        page: Int? = null,
+        perPage: Int? = null,
+        postseason: Boolean? = null,
+        teamIds: Array<Int>? = null
+    ): MatchesResponse {
+        return Network().getNbaService().getMatches(page, perPage, postseason, teamIds)
+    }
 }

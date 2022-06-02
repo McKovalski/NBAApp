@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
     android:background="@drawable/card_background"
-    android:elevation="6dp">
+    android:elevation="2dp">
 
     <include
         android:id="@+id/first_team"
@@ -24,10 +25,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textAllCaps="true"
         app:layout_constraintEnd_toStartOf="@id/second_team"
         app:layout_constraintStart_toEndOf="@id/first_team"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="TUESDAY, 19 Oct 2021" />
+        tools:text="Tuesday, 19 Oct 2021" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="0dp"
@@ -50,7 +52,8 @@
             style="@style/DisplayLargeNLv1Center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="-" />
+            android:text="-"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/second_team_score"
@@ -62,7 +65,7 @@
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
-        android:id="@+id/final_label"
+        android:id="@+id/status_label"
         style="@style/DescriptionNLv2Center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

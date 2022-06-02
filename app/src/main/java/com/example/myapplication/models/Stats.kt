@@ -20,7 +20,7 @@ data class Stats(
     val fg_pct: Float,
     val fg3_pct: Float,
     val ft_pct: Float,
-    val game: Game,
+    val game: Match,
     val player: Player,
     val team: Team
 )

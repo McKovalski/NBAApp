@@ -4,7 +4,7 @@ import com.example.myapplication.R
 
 class TeamsHelper() {
 
-    fun getLogoAndColor(teamName: String): Pair<Int, Int> {
+    fun getLogoAndColor(teamName: String?): Pair<Int, Int> {
         return when (teamName) {
             "76ers" -> Pair(R.drawable.ic_76ers, R.color.team_76_ers_primary)
             "Bucks" -> Pair(R.drawable.ic_bucks, R.color.team_bucks_primary)

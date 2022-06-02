@@ -25,6 +25,11 @@ data class PlayerImagesResponse(
     val data: List<PlayerImage>?
 )
 
+data class MatchesResponse(
+    val data: List<Match>,
+    val meta: Meta
+)
+
 data class Meta(
     val total_pages: Int,
     val current_page: Int,
