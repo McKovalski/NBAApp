@@ -1,7 +1,9 @@
 package com.example.myapplication.network.services
 
+import com.example.myapplication.models.Match
 import com.example.myapplication.network.models.*
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface NBAService {
@@ -33,7 +35,8 @@ interface NBAService {
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
         @Query("player_ids[]") playerIds: Array<Int>,
-        @Query("postseason") postseason: Boolean?
+        @Query("postseason") postseason: Boolean?,
+        @Query("seasons[]") seasons: Array<Int>?
     ): StatsResponse
 
     @GET("stats")
@@ -52,4 +55,8 @@ interface NBAService {
         @Query("team_ids[]") teamIds: Array<Int>?,
         @Query("seasons[]") seasons: Array<Int>?,
     ): MatchesResponse
+
+
+    @GET("games/{id}")
+    suspend fun getMatchById(@Path("id") id: Int) : Match
 }

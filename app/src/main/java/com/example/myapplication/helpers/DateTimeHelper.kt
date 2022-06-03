@@ -34,4 +34,10 @@ class DateTimeHelper {
         return LocalDate.parse(date.subSequence(0, 10))
             .format(DateTimeFormatter.ofPattern("dd MMM"))
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayMonthYear(date: String): String {
+        return LocalDate.parse(date.subSequence(0, 10))
+            .format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+    }
 }

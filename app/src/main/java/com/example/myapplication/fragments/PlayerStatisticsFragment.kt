@@ -55,7 +55,8 @@ class PlayerStatisticsFragment : Fragment() {
     private val statsAdapter by lazy {
         PlayerStatsRecyclerAdapter(
             requireContext(),
-            statsMap
+            statsMap,
+            true
         )
     }
 
@@ -107,9 +108,9 @@ class PlayerStatisticsFragment : Fragment() {
                 statsMap["turnover"] = it.turnover
                 statsMap["pf"] = it.pf
                 statsMap["pts"] = it.pts
-                statsMap["fg_pct"] = it.fg_pct * 100
-                statsMap["fg3_pct"] = it.fg3_pct * 100
-                statsMap["ft_pct"] = it.ft_pct * 100
+                statsMap["fg_pct"] = if (it.fg_pct <= 1) it.fg_pct * 100 else it.fg_pct
+                statsMap["fg3_pct"] = if (it.fg3_pct <= 1) it.fg3_pct * 100 else it.fg3_pct
+                statsMap["ft_pct"] = if (it.ft_pct <= 1) it.ft_pct * 100 else it.ft_pct
                 Log.d("Stats", statsMap.toString())
 
                 statsAdapter.updateStats(statsMap)

@@ -13,6 +13,7 @@ import com.example.myapplication.network.Network
 import com.example.myapplication.network.NetworkRepo
 import com.example.myapplication.network.paging.MatchPagingSource
 import com.example.myapplication.network.paging.PlayersRemoteMediator
+import com.example.myapplication.network.paging.StatPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -85,6 +86,16 @@ class SharedViewModel : ViewModel() {
                 }
                 .cachedIn(viewModelScope)
         } else getAllMatchesFlow(postseason, teamIds, seasons)
+    }
+
+    fun getStatsForPlayerFlow(
+        postseason: Boolean,
+        playerIds: Array<Int>,
+        seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON)
+    ) : Flow<PagingData<Stats>> {
+        return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
+            StatPagingSource(Network().getNbaService(), postseason, playerIds, seasons)
+        }.flow.cachedIn(viewModelScope)
     }
 
     fun getPlayersByName(search: String) {

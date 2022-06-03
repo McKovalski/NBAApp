@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.StatsTableRowBinding
 import com.example.myapplication.helpers.StatDisplayNameHelper
+import kotlin.math.roundToInt
 
 @SuppressLint("NotifyDataSetChanged")
 class PlayerStatsRecyclerAdapter(
     private val context: Context,
-    private val statsMap: LinkedHashMap<String, Float>
+    private val statsMap: LinkedHashMap<String, Float>,
+    private val isForAverages: Boolean
 ) : RecyclerView.Adapter<PlayerStatsRecyclerAdapter.StatViewHolder>() {
 
     private var noStatsFound = false
@@ -49,8 +51,11 @@ class PlayerStatsRecyclerAdapter(
         if (noStatsFound) {
             holder.binding.statValue.text = "?"
         } else {
-            holder.binding.statValue.text =
-                String.format("%.1f", statValue) //TODO mozda ce trebati mijenjati za player match
+            if (isForAverages) {
+                holder.binding.statValue.text = String.format("%.1f", statValue)
+            } else {
+                holder.binding.statValue.text = statValue?.roundToInt().toString()
+            }
         }
     }
 

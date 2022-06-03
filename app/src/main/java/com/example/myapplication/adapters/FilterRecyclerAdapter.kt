@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FilterItemViewBinding
 import com.example.myapplication.fragments.FilterType
+import com.example.myapplication.fragments.PlayerMatchesFragment
 import com.example.myapplication.fragments.SeasonsFragment
 import com.example.myapplication.fragments.TeamMatchesFragment
 
@@ -57,6 +58,7 @@ class FilterRecyclerAdapter(
             when (fragmentType) {
                 "Seasons" -> (fragment as SeasonsFragment).removeFilter(filterType)
                 "TeamMatches" -> (fragment as TeamMatchesFragment).removeFilter(filterType)
+                "PlayerMatches" -> (fragment as PlayerMatchesFragment).removeFilter(filterType)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.myapplication.network
 
+import com.example.myapplication.models.Match
 import com.example.myapplication.models.PlayerImagePost
 import com.example.myapplication.network.models.*
 import retrofit2.Response
@@ -33,9 +34,11 @@ class NetworkRepo {
         page: Int? = null,
         perPage: Int? = null,
         playerIds: Array<Int>,
-        postseason: Boolean? = null
+        postseason: Boolean? = null,
+        seasons: Array<Int>? = null
     ): StatsResponse {
-        return Network().getNbaService().getStatsForPlayer(page, perPage, playerIds, postseason)
+        return Network().getNbaService()
+            .getStatsForPlayer(page, perPage, playerIds, postseason, seasons)
     }
 
     suspend fun getStatsForGame(
@@ -53,5 +56,9 @@ class NetworkRepo {
 
     suspend fun postPlayerImage(image: PlayerImagePost): Response<Unit> {
         return Network().getSofaScoreService().postPlayerImage(image)
+    }
+
+    suspend fun getMatchById(id: Int): Match {
+        return Network().getNbaService().getMatchById(id)
     }
 }

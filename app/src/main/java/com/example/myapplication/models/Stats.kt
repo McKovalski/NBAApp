@@ -1,6 +1,7 @@
 package com.example.myapplication.models
 
 data class Stats(
+    val id: Int,
     val min: String, // "34:46"
     val fgm: Int,
     val fga: Int,
@@ -20,7 +21,7 @@ data class Stats(
     val fg_pct: Float,
     val fg3_pct: Float,
     val ft_pct: Float,
-    val game: Match,
+    val game: MatchInStat,
     val player: Player,
     val team: Team
 )

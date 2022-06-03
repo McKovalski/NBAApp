@@ -29,15 +29,9 @@ class TeamMatchPagingAdapter(
 ) : PagingDataAdapter<Match, TeamMatchPagingAdapter.TeamMatchViewHolder>(diffCallback) {
 
     private lateinit var team: Team
-    private var opponent: Team? = null
 
     fun setTeam(t: Team) {
         team = t
-        notifyDataSetChanged()
-    }
-
-    fun setOpponent(o: Team) {
-        opponent = o
         notifyDataSetChanged()
     }
 

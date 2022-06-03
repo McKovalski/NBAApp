@@ -17,7 +17,7 @@ data class SeasonAveragesResponse(
 )
 
 data class StatsResponse(
-    val data: List<Stats>?,
+    val data: List<Stats>,
     val meta: Meta
 )
 
