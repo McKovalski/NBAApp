@@ -31,38 +31,40 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Tuesday, 19 Oct 2021" />
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/first_team_score"
+        style="@style/DisplayLargeNLv1Center"
+        android:layout_width="56dp"
         android:layout_height="wrap_content"
-        app:justifyContent="space_evenly"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/status_label"
+        app:layout_constraintEnd_toStartOf="@id/separator"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:text="104"
+        tools:textColor="@color/neutrals_n_lv_2" />
+
+    <TextView
+        android:id="@+id/separator"
+        style="@style/DisplayLargeNLv1Center"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@id/status_label"
         app:layout_constraintEnd_toStartOf="@id/second_team"
         app:layout_constraintStart_toEndOf="@id/first_team"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/first_team_score"
-            style="@style/DisplayLargeNLv1Center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="104"
-            tools:textColor="@color/neutrals_n_lv_2" />
-
-        <TextView
-            style="@style/DisplayLargeNLv1Center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/second_team_score"
-            style="@style/DisplayLargeNLv1Center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="127" />
-
-    </com.google.android.flexbox.FlexboxLayout>
+    <TextView
+        android:id="@+id/second_team_score"
+        style="@style/DisplayLargeNLv1Center"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/status_label"
+        app:layout_constraintStart_toEndOf="@id/separator"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:text="127" />
 
     <TextView
         android:id="@+id/status_label"
