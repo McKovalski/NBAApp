@@ -11,9 +11,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.adapters.PlayerDiffCallback
@@ -61,7 +64,7 @@ class ExploreFragment : Fragment() {
     }
     private val allTeams = mutableListOf<Team>()
     private val allImages = mutableListOf<PlayerImage>()
-    private var isPlayersVisible: Boolean = false
+    private var isPlayersVisible: Boolean = true
 
     @ExperimentalPagingApi
     override fun onCreateView(
@@ -113,6 +116,16 @@ class ExploreFragment : Fragment() {
             playersFilteredAdapter.updatePlayers(it)
         }
 
+        lifecycleScope.launch {
+            playerPagingAdapter.loadStateFlow.collectLatest { loadState ->
+                binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
+                binding.teamsRecyclerView.isVisible =
+                    loadState.refresh !is LoadState.Loading && !isPlayersVisible
+                binding.playersRecyclerView.isVisible =
+                    loadState.refresh !is LoadState.Loading && isPlayersVisible
+            }
+        }
+
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Hide keyboard
@@ -142,9 +155,8 @@ class ExploreFragment : Fragment() {
                 } else {
                     if (isPlayersVisible) {
                         showFilteredPlayers(false)
-                    } else {
-                        teamsRecyclerAdapter.updateTeams(allTeams)
                     }
+                    teamsRecyclerAdapter.updateTeams(allTeams)
                 }
                 return true
             }
