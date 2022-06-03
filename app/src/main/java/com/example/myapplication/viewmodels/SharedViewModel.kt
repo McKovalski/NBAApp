@@ -14,6 +14,8 @@ import com.example.myapplication.network.NetworkRepo
 import com.example.myapplication.network.paging.MatchPagingSource
 import com.example.myapplication.network.paging.PlayersRemoteMediator
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 private const val PLAYER_PAGE_SIZE = 20
@@ -64,6 +66,25 @@ class SharedViewModel : ViewModel() {
         return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
             MatchPagingSource(Network().getNbaService(), postseason, teamIds, seasons)
         }.flow.cachedIn(viewModelScope)
+    }
+
+    fun getMatchesFlowOpponentFilter(
+        postseason: Boolean,
+        teamIds: Array<Int>? = null,
+        seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON),
+        opponent: Team? = null
+    ): Flow<PagingData<Match>> {
+        return if (opponent != null) {
+            Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
+                MatchPagingSource(Network().getNbaService(), postseason, teamIds, seasons)
+            }.flow
+                .map { pagingData ->
+                    pagingData.filter { match ->
+                        match.home_team.id == opponent.id || match.visitor_team.id == opponent.id
+                    }
+                }
+                .cachedIn(viewModelScope)
+        } else getAllMatchesFlow(postseason, teamIds, seasons)
     }
 
     fun getPlayersByName(search: String) {

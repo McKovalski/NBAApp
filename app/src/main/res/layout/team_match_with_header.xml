@@ -12,15 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="October 2021" />
 
     <include
         android:id="@+id/card"
-        layout="@layout/match_item_card"
+        layout="@layout/team_match_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"

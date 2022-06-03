@@ -29,6 +29,8 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+private const val FRAGMENT_TYPE = "Seasons"
+
 class SeasonsFragment : Fragment() {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -50,7 +52,8 @@ class SeasonsFragment : Fragment() {
             requireContext(),
             mutableListOf(),
             mutableListOf(),
-            this
+            this,
+            FRAGMENT_TYPE
         )
     }
 

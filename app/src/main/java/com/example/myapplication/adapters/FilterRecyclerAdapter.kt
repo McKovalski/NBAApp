@@ -11,13 +11,15 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FilterItemViewBinding
 import com.example.myapplication.fragments.FilterType
 import com.example.myapplication.fragments.SeasonsFragment
+import com.example.myapplication.fragments.TeamMatchesFragment
 
 @SuppressLint("NotifyDataSetChanged")
 class FilterRecyclerAdapter(
     private val context: Context,
     private val filters: MutableList<String>,
     private val filterTypes: MutableList<FilterType>,
-    private val fragment: Fragment
+    private val fragment: Fragment,
+    private val fragmentType: String
 ) : RecyclerView.Adapter<FilterRecyclerAdapter.FilterViewHolder>() {
 
     fun updateFilters(newFilters: MutableList<String>) {
@@ -52,7 +54,10 @@ class FilterRecyclerAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            (fragment as SeasonsFragment).removeFilter(filterType)
+            when (fragmentType) {
+                "Seasons" -> (fragment as SeasonsFragment).removeFilter(filterType)
+                "TeamMatches" -> (fragment as TeamMatchesFragment).removeFilter(filterType)
+            }
         }
     }
 

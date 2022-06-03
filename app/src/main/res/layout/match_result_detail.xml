@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/loss_or_win"
         style="@style/BodyLargeNLv1Center"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +19,9 @@
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:justifyContent="space_evenly"
+        android:layout_marginStart="8dp"
         app:alignItems="center"
+        app:justifyContent="space_evenly"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/loss_or_win"
@@ -37,7 +38,8 @@
             style="@style/BodyLargeNLv1Center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="-" />
+            android:text="-"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/second_team_score"

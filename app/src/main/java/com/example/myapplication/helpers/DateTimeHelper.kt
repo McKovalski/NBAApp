@@ -22,4 +22,16 @@ class DateTimeHelper {
         return LocalDate.parse(date.subSequence(0, 10))
             .format(DateTimeFormatter.ofPattern("MMMM yyyy"))
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayOfWeek(date: String): String {
+        return LocalDate.parse(date.subSequence(0, 10))
+            .format(DateTimeFormatter.ofPattern("EEEE"))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDayAndMonth(date: String): String {
+        return LocalDate.parse(date.subSequence(0, 10))
+            .format(DateTimeFormatter.ofPattern("dd MMM"))
+    }
 }

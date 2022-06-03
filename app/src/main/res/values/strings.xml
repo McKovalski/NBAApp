@@ -85,4 +85,6 @@
     <string name="rebounds">Rebounds</string>
     <string name="assists">Assists</string>
     <string name="turnovers">Turnovers</string>
+    <string name="vs">vs</string>
+    <string name="opponent">Opponent</string>
 </resources>
