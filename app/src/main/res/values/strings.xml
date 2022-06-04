@@ -98,4 +98,6 @@
     <string name="delete_all_player_photos">Delete all player photos</string>
     <string name="delete_player_photos_alert_text">If you clear all player photos, you won\'t be able to recover them</string>
     <string name="deleted_all_player_photos">Deleted all player photos</string>
+    <string name="no_results_found">No results found</string>
+    <string name="try_adjusting_filter">Try adjusting your search or filter to find what you are looking for.</string>
 </resources>
