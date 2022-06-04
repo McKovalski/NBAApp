@@ -38,6 +38,9 @@ class SharedViewModel : ViewModel() {
     val playerFavouriteImage = MutableLiveData<PlayerImage>()
     val allFavouriteImages = MutableLiveData<List<PlayerImage>>()
 
+    val playerHighlights = MutableLiveData<List<Highlight>>()
+    val eventHighlights = MutableLiveData<List<Highlight>>()
+
     val statsForGame = MutableLiveData<List<Stats>>()
 
     @ExperimentalPagingApi
@@ -92,7 +95,7 @@ class SharedViewModel : ViewModel() {
         postseason: Boolean,
         playerIds: Array<Int>,
         seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON)
-    ) : Flow<PagingData<Stats>> {
+    ): Flow<PagingData<Stats>> {
         return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
             StatPagingSource(Network().getNbaService(), postseason, playerIds, seasons)
         }.flow.cachedIn(viewModelScope)
@@ -291,6 +294,43 @@ class SharedViewModel : ViewModel() {
                 postseason = match.postseason
             )
             statsForGame.value = response.data ?: listOf()
+        }
+    }
+
+    fun getEventHighlights(eventId: Int) {
+        viewModelScope.launch {
+            val response = NetworkRepo().getEventHighlights(eventId)
+            if (response.isSuccessful) {
+                eventHighlights.value = response.body()?.data ?: listOf()
+            }
+        }
+    }
+
+    fun getPlayerHighlights(playerId: Int) {
+        viewModelScope.launch {
+            val response = NetworkRepo().getPlayerHighlights(playerId)
+            if (response.isSuccessful) {
+                playerHighlights.value = response.body()?.data ?: listOf()
+            }
+        }
+    }
+
+    fun postHighlight(
+        eventId: Int,
+        name: String,
+        url: String,
+        playerIdList: List<Int>? = null,
+        startTimestamp: Int
+    ) {
+        viewModelScope.launch {
+            val highlight = HighlightPost(eventId, name, url, playerIdList, startTimestamp)
+            NetworkRepo().postHighlight(highlight)
+        }
+    }
+
+    fun deleteHighlightById(id: Int) {
+        viewModelScope.launch {
+            NetworkRepo().deleteHighlightById(id)
         }
     }
 }

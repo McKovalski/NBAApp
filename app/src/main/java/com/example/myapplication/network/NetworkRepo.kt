@@ -1,5 +1,6 @@
 package com.example.myapplication.network
 
+import com.example.myapplication.models.HighlightPost
 import com.example.myapplication.models.Match
 import com.example.myapplication.models.PlayerImagePost
 import com.example.myapplication.network.models.*
@@ -56,6 +57,22 @@ class NetworkRepo {
 
     suspend fun postPlayerImage(image: PlayerImagePost): Response<Unit> {
         return Network().getSofaScoreService().postPlayerImage(image)
+    }
+
+    suspend fun getEventHighlights(eventId: Int): Response<HighlightsResponse> {
+        return Network().getSofaScoreService().getEventHighlights(eventId)
+    }
+
+    suspend fun getPlayerHighlights(playerId: Int): Response<HighlightsResponse> {
+        return Network().getSofaScoreService().getPlayerHighlights(playerId)
+    }
+
+    suspend fun postHighlight(highlight: HighlightPost): Response<Unit> {
+        return Network().getSofaScoreService().postHighlight(highlight)
+    }
+
+    suspend fun deleteHighlightById(id: Int): Response<Unit>  {
+        return Network().getSofaScoreService().deleteHighlightById(id)
     }
 
     suspend fun getMatchById(id: Int): Match {

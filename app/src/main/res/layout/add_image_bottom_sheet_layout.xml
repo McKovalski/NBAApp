@@ -38,7 +38,7 @@
         app:boxBackgroundColor="@color/surface_surface_2"
         app:boxStrokeColor="@color/color_primary"
         app:endIconTint="@color/black"
-        app:helperText="@string/paste_video_url"
+        app:helperText="@string/paste_image_url"
         app:helperTextTextAppearance="@style/AssistiveNLv2Left"
         app:helperTextTextColor="@color/neutrals_n_lv_2"
         app:hintTextColor="@color/color_primary"

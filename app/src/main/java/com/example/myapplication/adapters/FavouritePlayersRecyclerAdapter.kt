@@ -14,9 +14,6 @@ import com.example.myapplication.databinding.FavouritePlayerViewBinding
 import com.example.myapplication.fragments.FavouritesFragment
 import com.example.myapplication.models.Player
 import com.example.myapplication.models.PlayerImage
-import com.example.myapplication.network.NetworkRepo
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 private const val EXTRA_PLAYER = "player"
