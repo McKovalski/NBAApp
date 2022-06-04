@@ -22,7 +22,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginEnd="16dp"
         app:hintEnabled="false"
