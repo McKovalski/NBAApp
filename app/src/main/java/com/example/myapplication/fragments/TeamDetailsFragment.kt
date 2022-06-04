@@ -60,9 +60,6 @@ class TeamDetailsFragment : Fragment() {
             )
         )
 
-        // Map
-        binding.mapLayout.arenaLocationCity.text = team.city
-
         // Teams in conference
         teamsInDivision.forEachIndexed { i, t ->
             val (logo, color) = TeamsHelper().getLogoAndColor(t.name)
