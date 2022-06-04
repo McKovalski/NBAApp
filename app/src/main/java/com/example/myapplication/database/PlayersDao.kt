@@ -1,10 +1,7 @@
 package com.example.myapplication.database
 
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.myapplication.models.FavouritePlayer
 import com.example.myapplication.models.Player
 import com.example.myapplication.models.PlayerImage
@@ -47,4 +44,7 @@ interface PlayersDao {
 
     @Query("SELECT * FROM PlayerImage")
     suspend fun getAllFavouriteImages(): List<PlayerImage>?
+
+    @Query("DELETE FROM PlayerImage WHERE playerId = :id")
+    suspend fun deletePlayerFavouriteImage(id: Int)
 }

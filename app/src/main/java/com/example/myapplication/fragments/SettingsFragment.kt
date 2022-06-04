@@ -2,6 +2,8 @@ package com.example.myapplication.fragments
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,7 +43,9 @@ class SettingsFragment : Fragment() {
             val alertBinding = AlertDialogViewBinding.inflate(inflater)
             val clearRecentAlertDialog = AlertDialog.Builder(requireContext())
                 .setView(alertBinding.root)
-                .show()
+                .create()
+            clearRecentAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            clearRecentAlertDialog.show()
 
             alertBinding.title.text = getString(R.string.clear_favourites_list_question)
             alertBinding.textBody.text = getString(R.string.clear_favourites_body)

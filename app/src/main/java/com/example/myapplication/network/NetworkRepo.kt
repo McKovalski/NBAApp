@@ -59,6 +59,10 @@ class NetworkRepo {
         return Network().getSofaScoreService().postPlayerImage(image)
     }
 
+    suspend fun deletePlayerImageById(id: Int): Response<Unit> {
+        return Network().getSofaScoreService().deletePlayerImageById(id)
+    }
+
     suspend fun getEventHighlights(eventId: Int): Response<HighlightsResponse> {
         return Network().getSofaScoreService().getEventHighlights(eventId)
     }

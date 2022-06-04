@@ -16,7 +16,7 @@ interface SofaScoreService {
     suspend fun postPlayerImage(@Body image: PlayerImagePost): Response<Unit>
 
     @DELETE("player-image/{id}")
-    suspend fun deletePlayerImageById(@Path("id") id: Int)
+    suspend fun deletePlayerImageById(@Path("id") id: Int): Response<Unit>
 
     @GET("highlight/event/{eventId}")
     suspend fun getEventHighlights(@Path("eventId") eventId: Int): Response<HighlightsResponse>

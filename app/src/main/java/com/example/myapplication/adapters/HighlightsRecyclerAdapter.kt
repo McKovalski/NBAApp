@@ -17,10 +17,8 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.HighlightCardBinding
 import com.example.myapplication.databinding.HighlightEmptyStateBinding
 import com.example.myapplication.fragments.MatchDetailsFragment
-import com.example.myapplication.fragments.TeamDetailsFragment
 import com.example.myapplication.helpers.YoutubeVideoHelper
 import com.example.myapplication.models.Highlight
-import com.example.myapplication.models.PlayerImage
 
 private const val TYPE_EMPTY_STATE = 0
 private const val TYPE_HIGHLIGHT = 1

@@ -263,6 +263,14 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+    fun deletePlayerImage(image: PlayerImage) {
+        viewModelScope.launch {
+            NetworkRepo().deletePlayerImageById(image.id)
+            getPlayerImages(image.playerId)
+            playerImages.value?.remove(image)
+        }
+    }
+
     fun getPlayerFavouriteImage(context: Context, id: Int) {
         viewModelScope.launch {
             playerFavouriteImage.value =
@@ -273,6 +281,14 @@ class SharedViewModel : ViewModel() {
     fun setPlayerFavouriteImage(context: Context, image: PlayerImage) {
         viewModelScope.launch {
             NBAAppDatabase.getDatabase(context)?.playersDao()?.insertPlayerFavouriteImage(image)
+            getAllFavouriteImages(context)
+        }
+    }
+
+    fun deletePlayerFavouriteImage(context: Context, image: PlayerImage) {
+        viewModelScope.launch {
+            NBAAppDatabase.getDatabase(context)?.playersDao()
+                ?.deletePlayerFavouriteImage(image.playerId)
             getAllFavouriteImages(context)
         }
     }

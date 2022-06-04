@@ -36,6 +36,6 @@ class YoutubeVideoHelper {
     }
 
     fun getVideoThumbnailUrl(videoId: String): String {
-        return "http://img.youtube.com/vi/$videoId/mqdefault.jpg"
+        return "https://img.youtube.com/vi/$videoId/mqdefault.jpg"
     }
 }

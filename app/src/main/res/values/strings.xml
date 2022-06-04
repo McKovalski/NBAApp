@@ -93,4 +93,9 @@
     <string name="paste_video_url">Paste video URL</string>
     <string name="video_title">Video title</string>
     <string name="video_helper_text">Type a video title, ie. "Lakers vs. Nets Half time"</string>
+    <string name="manage_photos">Manage photos</string>
+    <string name="delete_all_photos">Delete all photos</string>
+    <string name="delete_all_player_photos">Delete all player photos</string>
+    <string name="delete_player_photos_alert_text">If you clear all player photos, you won\'t be able to recover them</string>
+    <string name="deleted_all_player_photos">Deleted all player photos</string>
 </resources>
