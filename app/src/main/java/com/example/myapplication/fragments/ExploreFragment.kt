@@ -178,7 +178,7 @@ class ExploreFragment : Fragment() {
     private fun setupSpinner() {
         val adapter = ArrayAdapter(
             requireContext(),
-            R.layout.spinner_item, //TODO popraviti izgled dropdown menija
+            R.layout.spinner_item,
             arrayOf(getString(R.string.players), getString(R.string.teams))
         )
         binding.spinner.adapter = adapter
