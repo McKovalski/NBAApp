@@ -215,6 +215,11 @@ class ExploreFragment : Fragment() {
                 sharedViewModel.spinnerSelectedPosition.value = position
                 isPlayersVisible = position == 0
                 setPlayersVisibility(isPlayersVisible)
+                if (isPlayersVisible) {
+                    binding.filterActionBar.root.isVisible = false
+                } else {
+                    binding.filterActionBar.root.isVisible = filters.isNotEmpty()
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
