@@ -24,6 +24,7 @@
     <color name="elevation_elevation_2">#33000000</color>
     <color name="overlay_overlay">#66000000</color>
     <color name="on_color_on_color_secondary">#80ffffff</color>
+    <color name="status_bar_color">#193873</color>
 
     <color name="team_pacers_primary">#fcb424</color>
     <color name="team_pacers_primary_alpha_0.5">#80fcb424</color>
