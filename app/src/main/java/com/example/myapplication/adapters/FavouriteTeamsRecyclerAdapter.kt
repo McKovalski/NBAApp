@@ -72,6 +72,8 @@ class FavouriteTeamsRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TeamsRecyclerAdapter.TeamEmptyStateViewHolder) {
             holder.binding.image.load(R.drawable.ic_sad_star)
+            holder.binding.image.imageTintList =
+                ContextCompat.getColorStateList(context, R.color.neutrals_n_lv_2)
             holder.binding.topText.text = context.getString(R.string.no_favourite_teams)
             holder.binding.bottomText.text =
                 context.getString(R.string.add_favourite_teams_in_explore)
