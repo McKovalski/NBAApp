@@ -153,12 +153,10 @@ class PlayerMatchesFragment : Fragment() {
                 binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
                 binding.recyclerMatches.isVisible = loadState.refresh !is LoadState.Loading
 
-                if (loadState.append is LoadState.NotLoading && loadState.append.endOfPaginationReached) {
-                    if (statPagingAdapter.itemCount < 1) {
-                        binding.emptyStatePlaceholder.root.visibility = View.VISIBLE
-                    } else {
-                        binding.emptyStatePlaceholder.root.visibility = View.GONE
-                    }
+                if (loadState.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && statPagingAdapter.itemCount < 1) {
+                    binding.emptyStatePlaceholder.root.visibility = View.VISIBLE
+                } else {
+                    binding.emptyStatePlaceholder.root.visibility = View.GONE
                 }
             }
         }
