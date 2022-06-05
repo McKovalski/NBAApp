@@ -145,6 +145,22 @@ class TeamMatchesFragment : Fragment() {
         val (_, colorId) = TeamsHelper().getLogoAndColor(team.name)
         bottomSheetBinding.buttonApply.backgroundTintList =
             ContextCompat.getColorStateList(requireContext(), colorId)
+        bottomSheetBinding.teamInputLayout.apply {
+            setHintTextColor(ContextCompat.getColorStateList(requireContext(), colorId))
+            setBoxStrokeColorStateList(ContextCompat.getColorStateList(requireContext(), colorId)!!)
+            defaultHintTextColor = ContextCompat.getColorStateList(requireContext(), colorId)
+        }
+        bottomSheetBinding.seasonInputLayout.apply {
+            setHintTextColor(ContextCompat.getColorStateList(requireContext(), colorId))
+            setBoxStrokeColorStateList(ContextCompat.getColorStateList(requireContext(), colorId)!!)
+            defaultHintTextColor = ContextCompat.getColorStateList(requireContext(), colorId)
+        }
+        bottomSheetBinding.buttonCancel.setTextColor(
+            ContextCompat.getColorStateList(
+                requireContext(),
+                colorId
+            )
+        )
         // Set the button as non clickable until user selects an item
         bottomSheetBinding.buttonApply.apply {
             alpha = 0.5f
