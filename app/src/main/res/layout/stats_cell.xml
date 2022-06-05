@@ -23,11 +23,11 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:progress="50"
         android:progressBackgroundTint="@color/surface_surface_0"
-        android:progressTint="@color/team_hawks_primary_alpha_0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stat_type" />
+        app:layout_constraintTop_toBottomOf="@id/stat_type"
+        tools:progress="50"
+        tools:progressTint="@color/team_hawks_primary_alpha_0.5" />
 
     <TextView
         android:id="@+id/first_team_value"
@@ -51,12 +51,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:progress="50"
         android:progressBackgroundTint="@color/surface_surface_0"
-        android:progressTint="@color/team_celtics_primary_alpha_0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/first_team_bar"
-        app:layout_constraintTop_toBottomOf="@id/stat_type" />
+        app:layout_constraintTop_toBottomOf="@id/stat_type"
+        tools:progress="50"
+        tools:progressTint="@color/team_celtics_primary_alpha_0.5" />
 
     <TextView
         android:id="@+id/second_team_value"

@@ -340,7 +340,7 @@ class PlayerMatchesFragment : Fragment() {
             firstTeamLogo.setImageResource(homeLogoId)
             val awayTeam = allTeams.first { t -> t.id == stat.game.visitor_team_id }
             val (awayLogoId, _) = TeamsHelper().getLogoAndColor(awayTeam.name)
-            secondTeamAbbr.text = homeTeam.abbreviation
+            secondTeamAbbr.text = awayTeam.abbreviation
             secondTeamLogo.setImageResource(awayLogoId)
         }
         statsBottomSheetDialog.setContentView(view)
