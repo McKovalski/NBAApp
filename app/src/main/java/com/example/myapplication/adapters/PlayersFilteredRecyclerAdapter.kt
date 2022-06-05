@@ -17,6 +17,8 @@ import kotlinx.coroutines.runBlocking
 
 private const val EXTRA_PLAYER = "player"
 private const val EXTRA_IS_FAVOURITE: String = "isFavourite"
+private const val TYPE_EMPTY_STATE = 0
+private const val TYPE_PLAYER = 1
 
 @SuppressLint("NotifyDataSetChanged")
 class PlayersFilteredRecyclerAdapter(
@@ -24,7 +26,7 @@ class PlayersFilteredRecyclerAdapter(
     private val players: MutableList<Player>,
     private val favouritePlayers: MutableList<Player>,
     private val fragment: ExploreFragment,
-) : RecyclerView.Adapter<PlayerPagingAdapter.PlayerViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val allImages = mutableListOf<PlayerImage>()
 
@@ -46,74 +48,88 @@ class PlayersFilteredRecyclerAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): PlayerPagingAdapter.PlayerViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.player_item_view, parent, false)
-        return PlayerPagingAdapter.PlayerViewHolder(view)
+    override fun getItemViewType(position: Int): Int {
+        return if (players.size == 0) TYPE_EMPTY_STATE else TYPE_PLAYER
     }
 
-    override fun onBindViewHolder(holder: PlayerPagingAdapter.PlayerViewHolder, position: Int) {
-        val player = players[position]
-        var favouriteImage: PlayerImage?
-
-        runBlocking {
-            favouriteImage = NBAAppDatabase.getDatabase(context)?.playersDao()
-                ?.getPlayerFavouriteImage(player.id)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_EMPTY_STATE -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.search_empty_state, parent, false)
+                TeamsRecyclerAdapter.TeamEmptyStateViewHolder(view)
+            }
+            TYPE_PLAYER -> {
+                val view =
+                    LayoutInflater.from(context).inflate(R.layout.player_item_view, parent, false)
+                PlayerPagingAdapter.PlayerViewHolder(view)
+            }
+            else -> throw IllegalAccessException()
         }
+    }
 
-        if (favouriteImage != null) {
-            holder.binding.icon.load(favouriteImage?.imageUrl)
-        } else {
-            if (allImages.isNotEmpty() && player.id in allImages.map { i -> i.playerId }) {
-                for (image in allImages) {
-                    if (image.playerId == player.id) {
-                        holder.binding.icon.load(image.imageUrl)
-                        fragment.setPlayerFavouriteImage(image)
-                        break
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is PlayerPagingAdapter.PlayerViewHolder) {
+            val player = players[position]
+            var favouriteImage: PlayerImage?
+
+            runBlocking {
+                favouriteImage = NBAAppDatabase.getDatabase(context)?.playersDao()
+                    ?.getPlayerFavouriteImage(player.id)
+            }
+
+            if (favouriteImage != null) {
+                holder.binding.icon.load(favouriteImage?.imageUrl)
+            } else {
+                if (allImages.isNotEmpty() && player.id in allImages.map { i -> i.playerId }) {
+                    for (image in allImages) {
+                        if (image.playerId == player.id) {
+                            holder.binding.icon.load(image.imageUrl)
+                            fragment.setPlayerFavouriteImage(image)
+                            break
+                        }
                     }
+                } else {
+                    val imageResource = when (position) {
+                        1 -> R.drawable.ic_player_1_small
+                        2 -> R.drawable.ic_player_2_small
+                        else -> R.drawable.ic_player_3_small
+                    }
+                    holder.binding.icon.load(imageResource)
+                    fragment.getPlayerImages(player.id)
                 }
-            } else {
-                val imageResource = when (position) {
-                    1 -> R.drawable.ic_player_1_small
-                    2 -> R.drawable.ic_player_2_small
-                    else -> R.drawable.ic_player_3_small
-                }
-                holder.binding.icon.load(imageResource)
-                fragment.getPlayerImages(player.id)
             }
-        }
 
-        holder.binding.name.text = player.fullName()
-        holder.binding.team.text = player.team.abbreviation
+            holder.binding.name.text = player.fullName()
+            holder.binding.team.text = player.team.abbreviation
 
-        holder.binding.iconFavourite.isSelected = player in favouritePlayers
-        holder.binding.iconFavourite.setOnClickListener {
-            if (holder.binding.iconFavourite.isSelected) {
-                favouritePlayers.remove(player)
-                fragment.removeFavouritePlayer(player.id)
-            } else {
-                favouritePlayers.add(player)
-                val lastPosition: Int
-                runBlocking {
-                    lastPosition = NBAAppDatabase.getDatabase(context)?.playersDao()
-                        ?.getLastFavouritePlayerPosition() ?: 0
+            holder.binding.iconFavourite.isSelected = player in favouritePlayers
+            holder.binding.iconFavourite.setOnClickListener {
+                if (holder.binding.iconFavourite.isSelected) {
+                    favouritePlayers.remove(player)
+                    fragment.removeFavouritePlayer(player.id)
+                } else {
+                    favouritePlayers.add(player)
+                    val lastPosition: Int
+                    runBlocking {
+                        lastPosition = NBAAppDatabase.getDatabase(context)?.playersDao()
+                            ?.getLastFavouritePlayerPosition() ?: 0
+                    }
+                    fragment.addFavouritePlayer(player.toFavouritePlayer(lastPosition + 1))
                 }
-                fragment.addFavouritePlayer(player.toFavouritePlayer(lastPosition + 1))
+                holder.binding.iconFavourite.apply { isSelected = !isSelected }
             }
-            holder.binding.iconFavourite.apply { isSelected = !isSelected }
-        }
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, PlayerDetailsActivity::class.java)
-                .putExtra(EXTRA_PLAYER, player)
-                .putExtra(EXTRA_IS_FAVOURITE, holder.binding.iconFavourite.isSelected)
-            context.startActivity(intent)
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, PlayerDetailsActivity::class.java)
+                    .putExtra(EXTRA_PLAYER, player)
+                    .putExtra(EXTRA_IS_FAVOURITE, holder.binding.iconFavourite.isSelected)
+                context.startActivity(intent)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return players.size
+        return if (players.size > 0) players.size else 1
     }
 }
