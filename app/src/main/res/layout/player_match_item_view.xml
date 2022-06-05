@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/card_background"
+    android:elevation="6dp">
+
+    <include
+        android:id="@+id/first_team"
+        layout="@layout/team_logo_abbr"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/DescriptionNLv1Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toStartOf="@id/second_team"
+        app:layout_constraintStart_toEndOf="@id/first_team"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="19 Oct 2021" />
+
+    <TextView
+        android:id="@+id/first_team_score"
+        style="@style/DisplayLargeNLv1Center"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/stats_icon"
+        app:layout_constraintEnd_toStartOf="@id/separator"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:text="104"
+        tools:textColor="@color/neutrals_n_lv_2" />
+
+    <TextView
+        android:id="@+id/separator"
+        style="@style/DisplayLargeNLv1Center"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@id/stats_icon"
+        app:layout_constraintEnd_toStartOf="@id/second_team"
+        app:layout_constraintStart_toEndOf="@id/first_team"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/second_team_score"
+        style="@style/DisplayLargeNLv1Center"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/stats_icon"
+        app:layout_constraintStart_toEndOf="@id/separator"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:text="127" />
+
+    <TextView
+        android:id="@+id/player_stats_label"
+        style="@style/DescriptionNLv2Center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/player_stats"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/second_team"
+        app:layout_constraintStart_toStartOf="@id/first_team" />
+
+    <ImageView
+        android:id="@+id/stats_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_stats"
+        app:layout_constraintBottom_toTopOf="@id/player_stats_label"
+        app:layout_constraintEnd_toEndOf="@id/player_stats_label"
+        app:layout_constraintStart_toStartOf="@id/player_stats_label"
+        app:tint="@color/color_secondary" />
+
+    <View
+        android:id="@+id/stat_click_space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/player_stats_label"
+        app:layout_constraintEnd_toEndOf="@id/player_stats_label"
+        app:layout_constraintStart_toStartOf="@id/player_stats_label"
+        app:layout_constraintTop_toTopOf="@id/stats_icon" />
+
+    <include
+        android:id="@+id/second_team"
+        layout="@layout/team_logo_abbr"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

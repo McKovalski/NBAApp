@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="326dp"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="8dp"
+        app:cardBackgroundColor="@color/overlay_overlay"
+        app:layout_constraintBottom_toBottomOf="@id/view_pager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.Cut">
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/circle_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp" />
+
+        <ImageView
+            android:id="@+id/icon_add_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="12dp"
+            android:backgroundTint="@color/overlay_overlay"
+            android:src="@drawable/ic_add_photo"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/icon_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="60dp"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/white" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <include
+        android:id="@+id/team_logo"
+        layout="@layout/team_logo_with_background"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/view_pager"
+        app:layout_constraintTop_toBottomOf="@id/view_pager" />
+
+    <TextView
+        android:id="@+id/team_label"
+        style="@style/DescriptionNLv2Left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/team"
+        android:textAllCaps="true"
+        app:layout_constraintStart_toEndOf="@id/team_logo"
+        app:layout_constraintTop_toBottomOf="@id/view_pager" />
+
+    <TextView
+        android:id="@+id/team_name"
+        style="@style/HeadlineMediumNLv1Left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/team_logo"
+        app:layout_constraintTop_toBottomOf="@id/team_label"
+        tools:text="Brooklyn Nets" />
+
+    <ImageView
+        android:id="@+id/icon_position"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_player"
+        app:layout_constraintBottom_toBottomOf="@id/team_logo"
+        app:layout_constraintStart_toEndOf="@id/team_logo" />
+
+    <TextView
+        android:id="@+id/position"
+        style="@style/AssistiveNLv1Left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="@id/team_logo"
+        app:layout_constraintStart_toEndOf="@id/icon_position"
+        tools:text="Forward" />
+
+    <include
+        android:id="@+id/bottom_sub_details"
+        layout="@layout/bottom_sub_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/team_logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

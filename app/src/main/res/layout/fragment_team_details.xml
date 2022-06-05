@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface_surface_0"
+    tools:context=".fragments.TeamDetailsFragment">
+
+    <include
+        android:id="@+id/team_details_card"
+        layout="@layout/team_details_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/other_teams_label"
+        style="@style/HeadlineSmallNLv1Left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:text="@string/other_teams_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/team_details_card" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/layout_other_teams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/card_background"
+        android:orientation="horizontal"
+        app:justifyContent="space_between"
+        app:layout_constraintTop_toBottomOf="@id/other_teams_label">
+
+        <include
+            android:id="@+id/first_team"
+            layout="@layout/team_logo_abbr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="12dp" />
+
+        <include
+            android:id="@+id/second_team"
+            layout="@layout/team_logo_abbr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="12dp" />
+
+        <include
+            android:id="@+id/third_team"
+            layout="@layout/team_logo_abbr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="12dp" />
+
+        <include
+            android:id="@+id/fourth_team"
+            layout="@layout/team_logo_abbr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="12dp" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <!--<TextView
+        android:id="@+id/home_arena_label"
+        style="@style/HeadlineSmallNLv1Left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:text="@string/home_arena_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_other_teams" />
+
+    <include
+        android:id="@+id/map_layout"
+        layout="@layout/map_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_arena_label"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
