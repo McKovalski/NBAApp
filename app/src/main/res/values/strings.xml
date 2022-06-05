@@ -100,4 +100,6 @@
     <string name="deleted_all_player_photos">Deleted all player photos</string>
     <string name="no_results_found">No results found</string>
     <string name="try_adjusting_filter">Try adjusting your search or filter to find what you are looking for.</string>
+    <string name="no_favourite_teams">No favourite teams</string>
+    <string name="add_favourite_teams_in_explore">Go ahead and add your favourite teams in the explore page</string>
 </resources>

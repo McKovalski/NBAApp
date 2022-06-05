@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/top_text"
             style="@style/HeadlineSmallNLv2Left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,15 +34,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/bottom_text"
             style="@style/AssistiveNLv2Left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:maxLines="2"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="3"
             android:text="@string/try_adjusting_filter"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/image" />
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toBottomOf="@id/top_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
