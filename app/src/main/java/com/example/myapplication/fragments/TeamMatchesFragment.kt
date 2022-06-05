@@ -304,7 +304,11 @@ class TeamMatchesFragment : Fragment() {
         }
         when (filterType) {
             FilterType.SEASON -> selectedSeason = -1
-            FilterType.TEAM -> selectedTeamName = null
+            FilterType.TEAM -> {
+                selectedTeamName = null
+                opponent = null
+            }
+            else -> Unit
         }
         getAllMatchesFlow()
         filterAdapter.updateFilters(filters)
