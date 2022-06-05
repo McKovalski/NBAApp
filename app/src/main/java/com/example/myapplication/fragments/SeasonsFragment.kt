@@ -275,6 +275,7 @@ class SeasonsFragment : Fragment() {
         when (filterType) {
             FilterType.SEASON -> selectedSeason = -1
             FilterType.TEAM -> selectedTeamName = null
+            else -> Unit
         }
         getAllMatchesFlow()
         filterAdapter.updateFilters(filters)
@@ -283,5 +284,5 @@ class SeasonsFragment : Fragment() {
 }
 
 enum class FilterType {
-    SEASON, TEAM
+    SEASON, TEAM, CONFERENCE, DIVISION
 }

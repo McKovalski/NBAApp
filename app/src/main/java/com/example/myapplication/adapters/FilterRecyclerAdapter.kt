@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FilterItemViewBinding
-import com.example.myapplication.fragments.FilterType
-import com.example.myapplication.fragments.PlayerMatchesFragment
-import com.example.myapplication.fragments.SeasonsFragment
-import com.example.myapplication.fragments.TeamMatchesFragment
+import com.example.myapplication.fragments.*
 
 @SuppressLint("NotifyDataSetChanged")
 class FilterRecyclerAdapter(
@@ -52,6 +49,8 @@ class FilterRecyclerAdapter(
         when (filterType) {
             FilterType.SEASON -> holder.binding.text.text = "$filter-${filter.toInt() + 1}"
             FilterType.TEAM -> holder.binding.text.text = filter
+            FilterType.CONFERENCE -> holder.binding.text.text = filter
+            FilterType.DIVISION -> holder.binding.text.text = filter
         }
 
         holder.itemView.setOnClickListener {
@@ -59,6 +58,7 @@ class FilterRecyclerAdapter(
                 "Seasons" -> (fragment as SeasonsFragment).removeFilter(filterType)
                 "TeamMatches" -> (fragment as TeamMatchesFragment).removeFilter(filterType)
                 "PlayerMatches" -> (fragment as PlayerMatchesFragment).removeFilter(filterType)
+                "ExploreTeams" -> (fragment as ExploreFragment).removeTeamFilter(filterType)
             }
         }
     }

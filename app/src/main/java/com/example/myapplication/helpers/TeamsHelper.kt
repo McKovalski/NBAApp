@@ -93,4 +93,11 @@ class TeamsHelper() {
             else -> R.string.eastern
         }
     }
+
+    fun getModelConferenceName(conference: String): Int {
+        return when (conference) {
+            "Western" -> R.string.west
+            else -> R.string.east
+        }
+    }
 }

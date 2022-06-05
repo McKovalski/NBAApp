@@ -104,4 +104,6 @@
     <string name="no_favourite_players">No favourite players</string>
     <string name="add_favourite_teams_in_explore">Go ahead and add your favourite teams in the explore page</string>
     <string name="add_favourite_players_in_explore">Go ahead and add your favourite players in the explore page</string>
+    <string name="west">West</string>
+    <string name="east">East</string>
 </resources>

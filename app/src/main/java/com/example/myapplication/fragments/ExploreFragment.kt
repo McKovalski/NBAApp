@@ -3,31 +3,36 @@ package com.example.myapplication.fragments
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.FrameLayout
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isGone
+import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
-import com.example.myapplication.adapters.PlayerDiffCallback
-import com.example.myapplication.adapters.PlayerPagingAdapter
-import com.example.myapplication.adapters.PlayersFilteredRecyclerAdapter
-import com.example.myapplication.adapters.TeamsRecyclerAdapter
+import com.example.myapplication.adapters.*
+import com.example.myapplication.databinding.FilterMatchesBottomSheetLayoutBinding
 import com.example.myapplication.databinding.FragmentExploreBinding
+import com.example.myapplication.helpers.TeamsHelper
 import com.example.myapplication.models.*
 import com.example.myapplication.viewmodels.SharedViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+private const val FRAGMENT_TYPE = "ExploreTeams"
 
 class ExploreFragment : Fragment() {
 
@@ -62,9 +67,23 @@ class ExploreFragment : Fragment() {
             this
         )
     }
+    private val filterAdapter by lazy {
+        FilterRecyclerAdapter(
+            requireContext(),
+            mutableListOf(),
+            mutableListOf(),
+            this,
+            FRAGMENT_TYPE
+        )
+    }
     private val allTeams = mutableListOf<Team>()
+    private val teams = mutableListOf<Team>()
     private val allImages = mutableListOf<PlayerImage>()
     private var isPlayersVisible: Boolean = true
+    private var selectedConference: String? = null
+    private var selectedDivision: String? = null
+    private val filters = mutableListOf<String>()
+    private val filterTypes = mutableListOf<FilterType>()
 
     @ExperimentalPagingApi
     override fun onCreateView(
@@ -83,6 +102,10 @@ class ExploreFragment : Fragment() {
         binding.playersFilteredRecycler.adapter = playersFilteredAdapter
         binding.playersFilteredRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.playersFilteredRecycler.visibility = View.GONE
+        binding.filterActionBar.recycler.adapter = filterAdapter
+        binding.filterActionBar.recycler.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         lifecycleScope.launch {
             sharedViewModel.getPlayerPaginatedFlow(requireContext()).collectLatest {
                 playerPagingAdapter.submitData(it)
@@ -97,8 +120,10 @@ class ExploreFragment : Fragment() {
         sharedViewModel.allTeams.observe(viewLifecycleOwner) {
             allTeams.clear()
             allTeams.addAll(it)
-            teamsRecyclerAdapter.updateTeams(allTeams)
-            teamsRecyclerAdapter.setAllTeams(allTeams)
+            teams.clear()
+            teams.addAll(allTeams)
+            teamsRecyclerAdapter.updateTeams(teams)
+            teamsRecyclerAdapter.setAllTeams(teams)
         }
         sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
             val favourites = mutableListOf<Team>()
@@ -145,7 +170,7 @@ class ExploreFragment : Fragment() {
                         sharedViewModel.getPlayersByName(query)
                     } else {
                         val filteredTeams =
-                            allTeams.filter { team ->
+                            teams.filter { team ->
                                 team.full_name.contains(
                                     query,
                                     true
@@ -157,11 +182,13 @@ class ExploreFragment : Fragment() {
                     if (isPlayersVisible) {
                         showFilteredPlayers(false)
                     }
-                    teamsRecyclerAdapter.updateTeams(allTeams)
+                    teamsRecyclerAdapter.updateTeams(teams)
                 }
                 return true
             }
         })
+
+        setTeamFilterBottomSheet()
 
         return binding.root
     }
@@ -194,6 +221,168 @@ class ExploreFragment : Fragment() {
                 // ne treba
             }
         }
+    }
+
+    // Reusing the match filter bottom sheet layout
+    private fun setTeamFilterBottomSheet() {
+        val dialog = BottomSheetDialog(requireContext())
+        val view = LayoutInflater.from(requireContext())
+            .inflate(R.layout.filter_matches_bottom_sheet_layout, null)
+        val bottomSheetBinding = FilterMatchesBottomSheetLayoutBinding.bind(view)
+        dialog.setContentView(view)
+
+        bottomSheetBinding.teamInputLayout.setHint(getString(R.string.conference))
+        bottomSheetBinding.seasonInputLayout.setHint(getString(R.string.division))
+
+        // Set the button as non clickable until user selects an item
+        bottomSheetBinding.buttonApply.apply {
+            alpha = 0.5f
+            isClickable = false
+            isEnabled = false
+        }
+        bottomSheetBinding.buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        bottomSheetBinding.buttonApply.setOnClickListener {
+            val conferenceFilter = bottomSheetBinding.teamAutocomplete.text.toString()
+            val divisionFilter = bottomSheetBinding.seasonAutocomplete.text.toString()
+            teams.clear()
+            teams.addAll(allTeams)
+            if (conferenceFilter.isNotEmpty()) {
+                val conference = getString(TeamsHelper().getModelConferenceName(conferenceFilter))
+                teams.retainAll { t -> t.conference == conference }
+            } else {
+                selectedConference = null
+                val index = filterTypes.indexOf(FilterType.CONFERENCE)
+                if (index != -1) {
+                    filters.removeAt(index)
+                    filterTypes.removeAt(index)
+                }
+            }
+            if (divisionFilter.isNotEmpty()) {
+                teams.retainAll { t -> t.division == divisionFilter }
+            } else {
+                selectedDivision = null
+                val index = filterTypes.indexOf(FilterType.DIVISION)
+                if (index != -1) {
+                    filters.removeAt(index)
+                    filterTypes.removeAt(index)
+                }
+            }
+            teamsRecyclerAdapter.updateTeams(teams)
+            filterAdapter.updateFilters(filters)
+            filterAdapter.updateFilterTypes(filterTypes)
+            binding.filterActionBar.root.visibility = View.VISIBLE
+            // Clear the autocomplete text views and...
+            bottomSheetBinding.root.children.forEach {
+                when (it) {
+                    is TextInputLayout -> {
+                        // TextInputLayout has a single child which is a FrameLayout
+                        // our AutoCompleteTextView is a child of that FrameLayout
+                        val frameLayout: FrameLayout = it.children.first() as FrameLayout
+                        val autoCompleteTextView = frameLayout.children.first()
+                        if (autoCompleteTextView is AutoCompleteTextView) {
+                            autoCompleteTextView.text?.clear()
+                            autoCompleteTextView.clearFocus()
+                        }
+                    }
+                }
+            }
+            // ...disable the apply button
+            bottomSheetBinding.buttonApply.apply {
+                alpha = 0.5f
+                isClickable = false
+                isEnabled = false
+            }
+            dialog.dismiss()
+        }
+        val conferenceAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            listOf(getString(R.string.western), getString(R.string.eastern))
+        )
+        bottomSheetBinding.teamAutocomplete.setAdapter(conferenceAdapter)
+        bottomSheetBinding.teamAutocomplete.setOnItemClickListener { adapterView, _, position, _ ->
+            selectedConference = adapterView?.getItemAtPosition(position) as String
+            // Enable the apply button
+            bottomSheetBinding.buttonApply.apply {
+                alpha = 1f
+                isClickable = true
+                isEnabled = true
+            }
+            val index = filterTypes.indexOf(FilterType.CONFERENCE)
+            if (index != -1) {
+                filters.removeAt(index)
+                filters.add(index, selectedConference!!)
+            } else {
+                filterTypes.add(FilterType.CONFERENCE)
+                filters.add(selectedConference!!)
+            }
+        }
+
+        val divisionAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            listOf(
+                getString(R.string.atlantic),
+                getString(R.string.central),
+                getString(R.string.northwest),
+                getString(R.string.pacific),
+                getString(R.string.southeast),
+                getString(R.string.southwest)
+            )
+        )
+        bottomSheetBinding.seasonAutocomplete.setAdapter(divisionAdapter)
+        bottomSheetBinding.seasonAutocomplete.setOnItemClickListener { adapterView, _, position, _ ->
+            selectedDivision = adapterView?.getItemAtPosition(position) as String
+            // Enable the apply button
+            bottomSheetBinding.buttonApply.apply {
+                alpha = 1f
+                isClickable = true
+                isEnabled = true
+            }
+            val index = filterTypes.indexOf(FilterType.DIVISION)
+            if (index != -1) {
+                filters.removeAt(index)
+                filters.add(index, selectedDivision!!)
+            } else {
+                filterTypes.add(FilterType.DIVISION)
+                filters.add(selectedDivision!!)
+            }
+        }
+
+        binding.iconFilter.setOnClickListener {
+            if (!isPlayersVisible) {
+                dialog.show()
+            }
+        }
+    }
+
+    fun removeTeamFilter(filterType: FilterType) {
+        val index = filterTypes.indexOf(filterType)
+        if (index != -1) {
+            filters.removeAt(index)
+            filterTypes.removeAt(index)
+        }
+        if (filters.isEmpty()) {
+            binding.filterActionBar.root.visibility = View.GONE
+        }
+        when (filterType) {
+            FilterType.CONFERENCE -> selectedConference = null
+            FilterType.DIVISION -> selectedDivision = null
+            else -> Unit
+        }
+        teams.clear()
+        teams.addAll(allTeams)
+        if (selectedConference != null) {
+            val conference = getString(TeamsHelper().getModelConferenceName(selectedConference!!))
+            teams.retainAll { t -> t.conference == conference }
+        } else if (selectedDivision != null) {
+            teams.retainAll { t -> t.division == selectedDivision }
+        }
+        teamsRecyclerAdapter.updateTeams(teams)
+        filterAdapter.updateFilters(filters)
+        filterAdapter.updateFilterTypes(filterTypes)
     }
 
     private fun setPlayersVisibility(isVisible: Boolean) {
