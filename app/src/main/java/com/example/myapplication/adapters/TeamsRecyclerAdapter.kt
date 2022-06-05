@@ -34,6 +34,8 @@ class TeamsRecyclerAdapter(
     private val fragment: ExploreFragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private lateinit var allTeams: MutableList<Team>
+
     fun updateFavourites(newFavourites: MutableList<Team>) {
         favouriteTeams.clear()
         favouriteTeams.addAll(newFavourites)
@@ -43,6 +45,11 @@ class TeamsRecyclerAdapter(
     fun updateTeams(newTeams: MutableList<Team>) {
         teamsList.clear()
         teamsList.addAll(newTeams)
+        notifyDataSetChanged()
+    }
+
+    fun setAllTeams(teams: MutableList<Team>) {
+        allTeams = teams
         notifyDataSetChanged()
     }
 
@@ -106,7 +113,7 @@ class TeamsRecyclerAdapter(
             }
 
             holder.itemView.setOnClickListener {
-                val teamsInDivision = teamsList.filter {
+                val teamsInDivision = allTeams.filter {
                     it.division == team.division && it.name != team.name
                 }
                 val intent = Intent(context, TeamDetailsActivity::class.java)

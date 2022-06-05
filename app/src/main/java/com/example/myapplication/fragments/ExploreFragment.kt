@@ -98,6 +98,7 @@ class ExploreFragment : Fragment() {
             allTeams.clear()
             allTeams.addAll(it)
             teamsRecyclerAdapter.updateTeams(allTeams)
+            teamsRecyclerAdapter.setAllTeams(allTeams)
         }
         sharedViewModel.favouriteTeams.observe(viewLifecycleOwner) {
             val favourites = mutableListOf<Team>()
