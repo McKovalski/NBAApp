@@ -13,9 +13,9 @@ class StatHelper {
         var totalFga = 0
         var totalFgm = 0
         for (stat in stats) {
-            if (stat.team.id == teamId) {
-                totalFga += stat.fga
-                totalFgm += stat.fgm
+            if (stat.team.id == teamId && stat.min != null) {
+                totalFga += stat.fga!!
+                totalFgm += stat.fgm!!
             }
         }
         return ((totalFgm / totalFga.toFloat()) * 100).roundToInt()
@@ -25,9 +25,9 @@ class StatHelper {
         var totalFg3a = 0
         var totalFg3m = 0
         for (stat in stats) {
-            if (stat.team.id == teamId) {
-                totalFg3a += stat.fg3a
-                totalFg3m += stat.fg3m
+            if (stat.team.id == teamId && stat.min != null) {
+                totalFg3a += stat.fg3a!!
+                totalFg3m += stat.fg3m!!
             }
         }
         return ((totalFg3m / totalFg3a.toFloat()) * 100).roundToInt()
@@ -47,15 +47,15 @@ class StatHelper {
         var totalFg3a = 0
         var totalFg3m = 0
         for (stat in stats) {
-            if (stat.team.id == teamId) {
-                totalFga += stat.fga
-                totalFgm += stat.fgm
-                totalFg3a += stat.fg3a
-                totalFg3m += stat.fg3m
-                statsMap["reb"] = statsMap["reb"]?.plus(stat.reb) ?: 0
-                statsMap["ast"] = statsMap["ast"]?.plus(stat.ast) ?: 0
-                statsMap["tov"] = statsMap["tov"]?.plus(stat.turnover) ?: 0
-                statsMap["oreb"] = statsMap["oreb"]?.plus(stat.oreb) ?: 0
+            if (stat.team.id == teamId && stat.min != null) {
+                totalFga += stat.fga!!
+                totalFgm += stat.fgm!!
+                totalFg3a += stat.fg3a!!
+                totalFg3m += stat.fg3m!!
+                statsMap["reb"] = statsMap["reb"]?.plus(stat.reb!!) ?: 0
+                statsMap["ast"] = statsMap["ast"]?.plus(stat.ast!!) ?: 0
+                statsMap["tov"] = statsMap["tov"]?.plus(stat.turnover!!) ?: 0
+                statsMap["oreb"] = statsMap["oreb"]?.plus(stat.oreb!!) ?: 0
             }
         }
         statsMap["fg_pct"] = ((totalFgm / totalFga.toFloat()) * 100).roundToInt()
@@ -64,7 +64,10 @@ class StatHelper {
         return statsMap
     }
 
-    fun getTopPlayers(stats: List<Stats>, allTeams: List<Team>): Map<String, List<Pair<Player, Int>>> {
+    fun getTopPlayers(
+        stats: List<Stats>,
+        allTeams: List<Team>
+    ): Map<String, List<Pair<Player, Int>>> {
         val topStats = linkedMapOf(
             "pts" to mutableListOf<Pair<Player, Int>>(),
             "fgm" to mutableListOf(),
@@ -75,30 +78,28 @@ class StatHelper {
             "oreb" to mutableListOf()
         )
         for (stat in stats) {
-            val teamIndex = allTeams.map { t -> t.id }.indexOf(stat.team.id)
-            val team = allTeams[teamIndex]
-            val player = Player(
-                stat.player.id,
-                stat.player.first_name,
-                stat.player.last_name,
-                null,
-                null,
-                null,
-                stat.player.position,
-                team
-            )
-            topStats["pts"]?.add(Pair(player, stat.pts))
-            topStats["fgm"]?.add(Pair(player, stat.fgm))
-            topStats["fg3m"]?.add(Pair(player, stat.fg3m))
-            topStats["reb"]?.add(Pair(player, stat.reb))
-            topStats["ast"]?.add(Pair(player, stat.ast))
-            topStats["tov"]?.add(Pair(player, stat.turnover))
-            topStats["oreb"]?.add(Pair(player, stat.oreb))
+            if (stat.min != null) {
+                val teamIndex = allTeams.map { t -> t.id }.indexOf(stat.team.id)
+                val team = allTeams[teamIndex]
+                val player = Player(
+                    stat.player.id,
+                    stat.player.first_name,
+                    stat.player.last_name,
+                    null,
+                    null,
+                    null,
+                    stat.player.position,
+                    team
+                )
+                topStats["pts"]?.add(Pair(player, stat.pts!!))
+                topStats["fgm"]?.add(Pair(player, stat.fgm!!))
+                topStats["fg3m"]?.add(Pair(player, stat.fg3m!!))
+                topStats["reb"]?.add(Pair(player, stat.reb!!))
+                topStats["ast"]?.add(Pair(player, stat.ast!!))
+                topStats["tov"]?.add(Pair(player, stat.turnover!!))
+                topStats["oreb"]?.add(Pair(player, stat.oreb!!))
+            }
         }
-        /*for (entry in topStats) {
-            entry.value.sortedBy { pair -> pair.second }
-        }
-        Log.d("top stats", topStats.toString())*/
         val sortedStats = topStats.mapValues {
             it.value.sortedBy { pair -> pair.second }
         }

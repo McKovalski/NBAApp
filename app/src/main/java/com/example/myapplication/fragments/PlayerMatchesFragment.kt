@@ -293,26 +293,31 @@ class PlayerMatchesFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun showStatsBottomDialog(stat: Stats) {
-        statsMap["min"] = stat.min.split(":")[0].toFloat()
-        statsMap["fgm"] = stat.fgm.toFloat()
-        statsMap["fga"] = stat.fga.toFloat()
-        statsMap["fg3m"] = stat.fg3m.toFloat()
-        statsMap["fg3a"] = stat.fg3a.toFloat()
-        statsMap["ftm"] = stat.ftm.toFloat()
-        statsMap["fta"] = stat.fta.toFloat()
-        statsMap["oreb"] = stat.oreb.toFloat()
-        statsMap["dreb"] = stat.dreb.toFloat()
-        statsMap["reb"] = stat.reb.toFloat()
-        statsMap["ast"] = stat.ast.toFloat()
-        statsMap["stl"] = stat.stl.toFloat()
-        statsMap["blk"] = stat.blk.toFloat()
-        statsMap["turnover"] = stat.turnover.toFloat()
-        statsMap["pf"] = stat.pf.toFloat()
-        statsMap["pts"] = stat.pts.toFloat()
-        statsMap["fg_pct"] = if (stat.fg_pct <= 1) stat.fg_pct * 100 else stat.fg_pct
-        statsMap["fg3_pct"] = if (stat.fg3_pct <= 1) stat.fg3_pct * 100 else stat.fg3_pct
-        statsMap["ft_pct"] = if (stat.ft_pct <= 1) stat.ft_pct * 100 else stat.ft_pct
-        Log.d("Stats", statsMap.toString())
+        var noStatsFound: Boolean = false
+        if (stat.min == null) {
+            noStatsFound = true
+        } else {
+            statsMap["min"] = stat.min.split(":")[0].toFloat()
+            statsMap["fgm"] = stat.fgm!!.toFloat()
+            statsMap["fga"] = stat.fga!!.toFloat()
+            statsMap["fg3m"] = stat.fg3m!!.toFloat()
+            statsMap["fg3a"] = stat.fg3a!!.toFloat()
+            statsMap["ftm"] = stat.ftm!!.toFloat()
+            statsMap["fta"] = stat.fta!!.toFloat()
+            statsMap["oreb"] = stat.oreb!!.toFloat()
+            statsMap["dreb"] = stat.dreb!!.toFloat()
+            statsMap["reb"] = stat.reb!!.toFloat()
+            statsMap["ast"] = stat.ast!!.toFloat()
+            statsMap["stl"] = stat.stl!!.toFloat()
+            statsMap["blk"] = stat.blk!!.toFloat()
+            statsMap["turnover"] = stat.turnover!!.toFloat()
+            statsMap["pf"] = stat.pf!!.toFloat()
+            statsMap["pts"] = stat.pts!!.toFloat()
+            statsMap["fg_pct"] = if (stat.fg_pct!! <= 1) stat.fg_pct * 100 else stat.fg_pct
+            statsMap["fg3_pct"] = if (stat.fg3_pct!! <= 1) stat.fg3_pct * 100 else stat.fg3_pct
+            statsMap["ft_pct"] = if (stat.ft_pct!! <= 1) stat.ft_pct * 100 else stat.ft_pct
+            Log.d("Stats", statsMap.toString())
+        }
 
         statsBottomSheetDialog = BottomSheetDialog(requireContext())
         val view = LayoutInflater.from(requireContext())
@@ -323,6 +328,7 @@ class PlayerMatchesFragment : Fragment() {
             statsMap,
             false
         )
+        playerStatsAdapter.noStatsFound(noStatsFound)
         bottomSheetBinding.statsRecyclerView.adapter = playerStatsAdapter
         bottomSheetBinding.statsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         bottomSheetBinding.header.apply {
