@@ -112,6 +112,14 @@ class TeamMatchesFragment : Fragment() {
             teamMatchPagingAdapter.loadStateFlow.collectLatest { loadState ->
                 binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
                 binding.recyclerMatches.isVisible = loadState.refresh !is LoadState.Loading
+
+                if (loadState.append is LoadState.NotLoading && loadState.append.endOfPaginationReached) {
+                    if (teamMatchPagingAdapter.itemCount < 1) {
+                        binding.emptyStatePlaceholder.root.visibility = View.VISIBLE
+                    } else {
+                        binding.emptyStatePlaceholder.root.visibility = View.GONE
+                    }
+                }
             }
         }
 
