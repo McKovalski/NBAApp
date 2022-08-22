@@ -68,7 +68,7 @@ class SharedViewModel : ViewModel() {
         seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON)
     ): Flow<PagingData<Match>> {
         return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
-            MatchPagingSource(Network().getNbaService(), postseason, teamIds, seasons)
+            MatchPagingSource(Network.getNbaService(), postseason, teamIds, seasons)
         }.flow.cachedIn(viewModelScope)
     }
 
@@ -80,7 +80,7 @@ class SharedViewModel : ViewModel() {
     ): Flow<PagingData<Match>> {
         return if (opponent != null) {
             Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
-                MatchPagingSource(Network().getNbaService(), postseason, teamIds, seasons)
+                MatchPagingSource(Network.getNbaService(), postseason, teamIds, seasons)
             }.flow
                 .map { pagingData ->
                     pagingData.filter { match ->
@@ -97,7 +97,7 @@ class SharedViewModel : ViewModel() {
         seasons: Array<Int>? = arrayOf(Constants().LAST_SEASON)
     ): Flow<PagingData<Stats>> {
         return Pager(config = PagingConfig(MATCH_PAGE_SIZE)) {
-            StatPagingSource(Network().getNbaService(), postseason, playerIds, seasons)
+            StatPagingSource(Network.getNbaService(), postseason, playerIds, seasons)
         }.flow.cachedIn(viewModelScope)
     }
 

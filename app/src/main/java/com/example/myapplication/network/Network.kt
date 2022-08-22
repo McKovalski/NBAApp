@@ -7,7 +7,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class Network {
+// u object
+object Network {
 
     private val service: NBAService
     private val sofaService: SofaScoreService
